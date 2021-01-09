@@ -1,0 +1,24 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+  .logo { margin-top: 200px; }
+  .pageSet { background-color: white; bottom: 0; color: #002b80; min-height: calc(100% - 51px); position: absolute; text-align: center; width: calc(100% - 160px); }
+
+  @media only screen and (max-width: 769px) {
+    .pageSet { height: calc(100vh - 10px); top: 0; width: calc(100vw - 20px); }
+  }
+
+  @media only screen and (max-height: 600px) and (orientation: landscape) {
+  	.logo { margin-top: 14px; }
+    .pageSet { margin: 50px 0; min-height: calc(100vh - 61px); top: 0; width: calc(100vw - 20px); }
+  }
+</style>
+
+<div class="pageSet">
+	<p><img class="logo" src="{% static 'base/img/ssls_logo.png' %}"/></p>
+	<h3>Southern Sodgrass</h3>
+	<br>
+	<h1>Enterprise Management System</h1>
+</div>
+{% endblock %}

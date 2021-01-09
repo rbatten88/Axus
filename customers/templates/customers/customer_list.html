@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<style type="">
+  tr:nth-of-type(odd) { background-color: #eee; }
+  tr:nth-of-type(even) { background-color: #fff; }
+  th { background: gray; font-weight: bold; }
+  /*td, th { padding: 6px; border: 1px solid #eee; text-align: left; }*/
+  .btn { border-radius: 20px; width: 160px; outline: none; background-color: #e8e7e7; border-width: medium; border-color: #3385ff; color: black; right: 0;
+      position: absolute; margin: 4px 20px 0 0; }
+  .btn:hover { color: black; font-weight: bold; }
+  .static_label { position: fixed; display: inline-flex; min-width: calc(100vw - 160px); background-color: black; padding-bottom: 8px; margin-top: 51px; top: 0; z-index: 2; }
+  .table_set { margin-top: 100px; padding-bottom: 1px; }
+  #customer_search_input { width: 40%; height: 32px; border-radius: 4px; border: 1px solid black; background-color: #e8e7e7; padding-left: 10px; vertical-align: top; margin: 0px 0px 10px 0px; font-size: 14px; color: black; display: block; position: absolute; right: 0; margin: 8px 200px 0 0; }
+  #customers_label { margin: 0px 0px 10px 20px; color: #3385ff; font-size: 30px; }
+  #data_row:hover { background-color: lightblue; }
+  #mobile_customer_search_input { display: none; }
+
+  @media only screen and (max-width: 870px) {
+    table, thead, tbody, th, td, tr { display: block; }
+    thead tr { position: absolute; top: -9999px; left: -9999px; }
+    tr { border: 1px solid #eee; }
+    tr:nth-of-type(odd) { background: #bfbfbf; }
+    td { /* Behave  like a "row" */ border: none; border-bottom: 1px solid #ccc; position: relative; padding-left: 50%; }
+    td:before { /* Now like a table header */ position: absolute; /* Top/left values mimic padding */ top: 6px; left: 6px; width: 45%; padding-right: 10px; white-space: nowrap; }
+    /* Label the data */
+    td:nth-of-type(1):before { content: "Name:"; }
+    td:nth-of-type(2):before { content: "Phone Number:"; }
+    td:nth-of-type(3):before { content: "Open Balance:"; }
+    .btn { border-radius: 10px; font-size: 10px; font-weight: bold; margin: 2px; width: auto; }
+    .static_label { margin: 46px 0 0; min-width: calc(100vw - 20px); }
+    .table { }
+    .table_set { margin-top: 90px; }
+    .transform-media { padding-left: 120px; }
+    #customers_label { margin: 5px; color: #3385ff; font-size: 20px; }
+    #data_row { margin-bottom: 10px; }
+    #customer_search_input { display: none; }
+    #mobile_customer_search_input {color: black; width: 60%; height: 28px; margin: 5px 38px; padding-left: 10px; display: block; border-radius: 4px; border-width: 1px;  background-color: #e8e7e7; font-size: 12px; }
+  }
+
+  @media only screen and (max-width: 480px) {
+    .btn { border-radius: 10px; font-size: 10px; font-weight: bold; margin: 28px 0; top: 0; width: auto; }
+    .static_label { display: block; margin: 46px 0 0; min-height: 70px; min-width: calc(100vw - 20px); }
+    .table_set { margin-top: 110px; }
+    #customers_label { margin: 5px; color: #3385ff; font-size: 20px; height: 20px; }
+    #mobile_customer_search_input { width: 70%; margin: 5px 0 0 0; }
+  }
+
+</style>
+<div>
+  <div class="static_label">
+    <h2 id="customers_label">Customers</h2>
+    <input type="text" name="mobile_customer_search" placeholder="Search by Company Name" id="mobile_customer_search_input">
+    <input type="text" name="customer_search" placeholder="Search by Company Name" id="customer_search_input">
+    <a href="{% url 'customer_add' %}" role="button" class="btn">New Customer</a>
+  </div>
+  <div class="table_set">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone Number</th>
+          <th>Current Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for customer in customers %}
+          <tr id="data_row" data-href="#customer_detail">
+            <td><div class="transform-media">{{ customer.company_name }}</div></td>
+            <td><div class="transform-media">{{ customer.phone_number }}</div></td>
+            <td><div class="transform-media">{{ customer.current_balance }}</div></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

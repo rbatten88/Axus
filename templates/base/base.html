@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <title>Nexus | {{ title }}</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="shortcut icon" href="{% static 'base/img/ssls_favicon.ico' %}">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src= "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" > </script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <style type="text/css">
+
+    body { background-color: black; }
+    .container-fluid { background-color: black; padding: 0px; height: 100vh; }
+    .content_set { width: calc(100vw - 160px); min-height: 100vh; margin-left: 160px; overflow: hidden; }
+    .navbar {background-color: black; padding-right: 40px; position: fixed; top: 0; width: 100%; z-index: 1000; }
+    .navbar a { color: gray; }
+    #recentTransactionsHeader { color: #3385ff; }
+    #recentTranactionsViewMoreLink { margin-top: 20px; transition: 0.5s; }
+    #recentTranactionsViewMoreLink a { bottom: 0; color: #3385ff; transition: 0.3s; }
+    #recentTranactionsViewMoreLink a:hover { font-size: 20px; text-decoration: none; }
+    #searchDropdown { background-color: black; border: 1px solid gray; height: 520px; margin-top: 10px; padding: 20px; width: 600px; transition: 0.5s; }
+    #searchDropdown li { padding-bottom: 10px; margin-left: 40px; }
+    #searchDropdown li a { text-decoration: none; transition: 0.3s; }
+    #searchDropdown li a:hover { color: #3385ff; font-size: 18px; font-weight: bold; text-decoration: none; }
+    #searchDropdownIcon { color: gray; font-size: 24px; margin-right: 20px;}
+    #searchDropdownInput { background-color: #eee; color: black; font-size: 20px; width: 500px; }
+    #searchQuickLink, #orderQuickLink { font-size: 24px; text-decoration: none; margin-left: 40px; }
+    #searchQuickLink:hover, #orderQuickLink:hover { color: #3385ff; }
+    #sideNav {background-color: black; height: 100%; left: 0; margin-top: 50px; padding-top: 10px; position: fixed; transition: 0.5s; top: 0; 
+      width: 160px; z-index: 100; }
+    #sideNav a { color: gray; display: block; font-size: 16px; margin-left: 22px; padding: 6px 0px 6px 6px; transition: 0.3s; }
+    #sideNav a:hover { color: #3385ff; font-size: 18px; font-weight: bold; text-decoration: none; }
+    #sideNavBtn { display: none; font-size: 24px; }
+    #dynamicUsername { color: #3385ff; font-size: 24px; text-decoration: none; }
+
+    @media only screen and (max-width: 769px) {
+      .content_set { margin: 0 10px; min-height: 100vh; width: auto; }
+      #searchDropdown { height: 560px; margin-top: 9px; }
+      #sideNav { display: none; }
+      #sideNavBtn { display: block; }
+      #dynamicUsername { font-size: 20px; margin-left: -380px; }
+    }
+
+    @media only screen and (max-width: 600px) {
+      .navbar { padding: 10px 4px; width: 100vw; }
+      #searchDropdown { width: 96vw; margin: 12px 4px 0px 0px; }
+      #searchDropdownIcon { color: gray; font-size: 22px; margin-right: 10px;}
+      #searchDropdownInput { background-color: #eee; color: black; font-size: 20px; width: 300px; }
+      #searchQuickLink { margin-right: 22px; }
+      #searchQuickLink, #orderQuickLink { font-size: 22px; margin-left: 30px; }
+      #sideNavBtn { margin-left: 10px; }
+      #dynamicUsername { font-size: 20px; margin-left: -40px; }
+    }
+
+    @media only screen and (max-height: 600px) and (orientation: landscape) {
+      .content_set { margin: 0 10px; min-height: 100vh; width: auto; }
+      #dynamicUsername { font-size: 20px; margin-left: -40px; }
+      #sideNav { display: none; height: calc(100% - 46px); overflow: auto; }
+      #sideNavBtn { display: block; margin-left: 10px; }
+      #orderSubMenu {  }
+      #dynamicUsername { font-size: 20px; margin-left: -450px; }
+      #searchDropdown { height: calc(100vh - 50px); overflow-y: auto; }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="navbar">
+      <a class="fa fa-align-justify" id="sideNavBtn"></a>
+      <a class="" id="dynamicUsername"><b>{{ user.first_name }} {{ user.last_name }}</b></a>
+      <div class="nav justify-content-end">
+        <a class="fa fa-plus-circle quick_link" id="orderQuickLink" href="#newOrder"></a>
+        <div class="dropdown">
+          <a class="fa fa-search" data-toggle="dropdown" id="searchQuickLink"></a>
+          <div class="dropdown-menu dropdown-menu-right" id="searchDropdown">
+            <span class="fa fa-search" id="searchDropdownIcon"></span>
+            <input placeholder="Search" type="text" id="searchDropdownInput">
+            <div class="dropdown-divider" id="searchDivider"></div>
+            <p id="recentTransactionsHeader">Recent Transactions</p>
+            {% for trans in transactions %}
+              <li><a href="#">{{ trans.order_date }}  {{ trans.order_number }}  {{ trans.customer_name }}  {{ trans.order_total }}</a></li>
+            {% endfor %}
+            <div id="recentTranactionsViewMoreLink"><a href="#viewMore">View More</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sidenav" id="sideNav">
+      <a href="{% url 'homepage' %}">Dashboard</a>
+      <a href="#">Orders</a>
+      <a href="{% url 'customer_list' %}">Customers</a>
+      <a href="#">Vendors</a>
+      <a href="#">Products</a>
+      <a href="#">Logistics</a>
+      <a href="#">Taxes</a>
+      <a href="#">Banking</a>
+      <a href="#">Reports</a>
+      <a href="#">Workers</a>
+      <a href="#">Accounting</a>
+      <a href="#">Users</a>
+      <a href="#">Settings</a>
+    </div>
+    <div class="content_set">{% block content %}{% endblock %}</div>
+  </div>
+
+  <script>
+
+    var w = window.matchMedia("(max-width: 769px)");
+    $('#sideNavBtn').on('click', function() {
+      if ($('#sideNav').css('display') === 'none') {
+        $(this).css('color','#3385ff');
+        $('#sideNav').css('display','block');
+      } else {
+        $('#sideNav').css('display','none');
+        $(this).css('color','gray');
+      }
+    });
+
+
+    $('#searchQuickLink').on('click', function() {
+      if (w.matches) {
+        if ($('#sideNav').css('display','block')) {
+          $('#sideNavBtn').css('color','gray')
+          $('#sideNav').css('display','none')
+        }
+      }
+    });
+
+
+  </script>
+  
+</body>
+</html>
