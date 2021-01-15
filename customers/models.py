@@ -1,4 +1,6 @@
+from django.contrib import admin
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 number_type = (
@@ -19,7 +21,7 @@ class WholesaleCustomer(models.Model):
 	)
 	company_name = models.CharField(max_length=100, unique=True)
 	contact_name = models.CharField(max_length=100, null=True, blank=True)
-	phone_number_type = models.CharField(max_length=1, choices=number_type, default='m')
+	#phone_number_type = models.CharField(max_length=1, choices=number_type, default='m')
 	phone_number = models.CharField(max_length=12, unique=True)
 	additional_phone = models.BooleanField(default=False)
 	email = models.EmailField(max_length=64, null=True, blank=True)
@@ -35,7 +37,7 @@ class WholesaleCustomer(models.Model):
 	notes_popup = models.BooleanField(default=False)
 	is_exempt = models.BooleanField(default=False)
 	exemption_number = models.CharField(max_length=64, null=True, blank=True, unique=True)
-	current_balance = models.IntegerField(default=0)
+	#current_balance = models.IntegerField(default='0', null=True, blank=True)
 	has_credit = models.BooleanField(default=False)
 	credit_limit = models.IntegerField(null=True, blank=True)
 	credit_terms = models.CharField(max_length=2, null=True, blank=True, choices=terms, default='')
@@ -47,6 +49,9 @@ class WholesaleCustomer(models.Model):
 	def __str__(self):
 		return f"{self.company_name}"
 
+	def get_absolute_url(self):
+		return reverse('customers:customer_list')
+
 	class Meta(object):
 		ordering = ['company_name']
 
@@ -56,7 +61,7 @@ class AdditionalEmail(models.Model):
 	email = models.EmailField(max_length=64, unique=True, null=True, blank=True)
 
 	def __str__(self):
-		return f"{self.company_name} - {self.email}"
+		return f"{self.company_name}"
 
 	class Meta(object):
 		ordering = ['company_name']
@@ -64,11 +69,11 @@ class AdditionalEmail(models.Model):
 
 class AdditionalPhone(models.Model):
 	company_name = models.ForeignKey(WholesaleCustomer, on_delete=models.CASCADE)
-	phone_number_type = models.CharField(max_length=1, choices=number_type, default='o')
+	#phone_number_type = models.CharField(max_length=1, choices=number_type, default='o')
 	phone_number = models.CharField(max_length=12, unique=True, null=True, blank=True)
 
 	def __str__(self):
-		return f"{self.company_name} - {self.phone_number}"
+		return f"{self.company_name}"
 
 	class Meta(object):
 		ordering = ['company_name']

@@ -64,7 +64,7 @@
       </thead>
       <tbody>
         {% for customer in customers %}
-          <tr id="data_row" data-href="#customer_detail">
+          <tr id="data_row" data-href="{% url 'customer_detail' %}">
             <td><div class="transform-media">{{ customer.company_name }}</div></td>
             <td><div class="transform-media">{{ customer.phone_number }}</div></td>
             <td><div class="transform-media">{{ customer.current_balance }}</div></td>

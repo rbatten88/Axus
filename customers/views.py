@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, FileResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
+from django.urls import reverse
 from .forms import WholesaleCustomerForm
 from .models import WholesaleCustomer, AdditionalEmail, AdditionalPhone
 from customers.functions.functions import upload_attachment
@@ -12,7 +13,7 @@ import csv, io
 def customer_upload(request):
 	template = 'customers/customer_upload.html'
 	prompt = {
-	'order': 'Order of csv should be Customer Name, Phone Number, Email, Contact, Street, City, State, Zipcode'
+		'order': 'Order of csv should be Customer Name, Phone Number, Email, Contact, Street, City, State, Zipcode'
 	}
 	if request.method == "GET":
 		return render(request, template, prompt)
@@ -87,21 +88,23 @@ def customer_list(request):
 
 
 def customer_add(request):
+	template = 'customers/customer_add.html'
+	title = 'Customer Add'
 	if request.method == 'POST':
-		form = CustomerAddForm(request.POST)
+		#return HttpResponse("Form Post")
+		form = WholesaleCustomerForm(request.POST)
 		if form.is_valid():
-			#customer = Customer.object.
-			return HttpResponseRedirect('/customer_list/')
+			form.save()
+			return HttpResponseRedirect(reverse('customer_list'))
 	else:
 		form = WholesaleCustomerForm()
-		template = 'customers/customer_add.html'
-		title = 'Customer Add'
-		context = {
-			'form': form, 
-			'title': title
-		}
+		#context = {'form': form, 'submitted': submitted, 'title': title}
+		context = {'form': form, 'title': title}
 	return render(request, template, context)
 
 
 def customer_detail(request):
+	return HttpResponse("Inside Customer Detail View ")
+	wc = get_object_or_404(WholesaleCustomer, id=wc_id)
+	return HttpResponse(wc.company_name)
 	return render(request, context)
