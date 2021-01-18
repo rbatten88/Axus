@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, FileResponse
+from django.views.generic import CreateView, ListView, UpdateView
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import permission_required
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from .forms import WholesaleCustomerForm
 from .models import WholesaleCustomer, AdditionalEmail, AdditionalPhone
 from customers.functions.functions import upload_attachment
@@ -76,35 +78,23 @@ def customer_upload(request):
 	return render(request, template, context)
 
 
-def customer_list(request):
-	 template = 'customers/customer_list.html'
-	 title = 'Customer List'
-	 customers = WholesaleCustomer.objects.all()
-	 context = {
-	 	'title': title,
-	 	'customers': customers 
-	 }
-	 return render(request, template, context)
+class NewWholesaleCustomerView(CreateView):
+    model = WholesaleCustomer
+    form_class = WholesaleCustomerForm
+    success_url = reverse_lazy('customer_list')
+    template_name = 'customers/customer_add.html'
 
 
-def customer_add(request):
-	template = 'customers/customer_add.html'
-	title = 'Customer Add'
-	if request.method == 'POST':
-		#return HttpResponse("Form Post")
-		form = WholesaleCustomerForm(request.POST)
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect(reverse('customer_list'))
-	else:
-		form = WholesaleCustomerForm()
-		#context = {'form': form, 'submitted': submitted, 'title': title}
-		context = {'form': form, 'title': title}
-	return render(request, template, context)
+class WholesaleCustomerListView(ListView):
+    model = WholesaleCustomer
+    context_object_name = 'customers'
+    template_name = 'customers/customer_list.html'
 
 
-def customer_detail(request):
-	return HttpResponse("Inside Customer Detail View ")
-	wc = get_object_or_404(WholesaleCustomer, id=wc_id)
-	return HttpResponse(wc.company_name)
-	return render(request, context)
+class WholesaleCustomerUpdateView(SuccessMessageMixin, UpdateView):
+    model = WholesaleCustomer
+    form_class = WholesaleCustomerForm
+    template_name = 'customers/customer_detail.html'
+    context_object_name = 'customer'
+    #success_message = 'Successfully updated customer - %(company_name)s'
+    success_url = reverse_lazy('customer_list')

@@ -96,6 +96,14 @@
         </div>
       </div>
     </div>
+    {% if messages %}
+      {% for message in messages %}
+         <div class="text-center alert alert-{{ message.tags }}">
+             {{ message|safe }}
+             <a href="#" class="close">X</a>
+         </div>
+      {% endfor %}
+    {% endif %}
     <div class="sidenav" id="sideNav">
       <a href="{% url 'homepage' %}">Dashboard</a>
       <a href="#">Orders</a>
