@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, FileResponse
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import permission_required
@@ -78,7 +78,7 @@ def customer_upload(request):
 	return render(request, template, context)
 
 
-class NewWholesaleCustomerView(CreateView):
+class WholesaleCustomerCreateView(CreateView):
     model = WholesaleCustomer
     form_class = WholesaleCustomerForm
     success_url = reverse_lazy('customer_list')
@@ -96,5 +96,9 @@ class WholesaleCustomerUpdateView(SuccessMessageMixin, UpdateView):
     form_class = WholesaleCustomerForm
     template_name = 'customers/customer_detail.html'
     context_object_name = 'customer'
-    #success_message = 'Successfully updated customer - %(company_name)s'
+    success_url = reverse_lazy('customer_list')
+
+
+class WholesaleCustomerDeleteView(DeleteView):
+    model = WholesaleCustomer
     success_url = reverse_lazy('customer_list')

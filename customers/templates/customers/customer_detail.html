@@ -15,6 +15,7 @@
   .nav-link:hover { background-color: lightgray; color: black; }
   .nav-tabs { border: none; margin: 20px 20px 0 20px; }
   .overflowWindow { overflow-y: auto; height: calc(100vh - 126px); }
+  .submitBtn { margin: 20px; }
   .tab-content { border: 1px solid lightgray; min-height: 34vh; margin: 0px 10px; padding: 12px 0; position: relative; }
   .textAlignCenter { margin-bottom: 10px; text-align: center; }
   #id_attachments { min-width: 100%; }
@@ -32,7 +33,6 @@
   #id_notes { height: 30px; }
   #phone_number2_fieldset, #email2_fieldset, #phone_number3_fieldset, #email3_fieldset { display: none; margin-top: 10px; }
   #spacer, #spacer2 { display: none; }
-  #submitBtn { margin: 20px 0 0 0; }
   a.active { background-color: darkgray !important; color: black !important; }
 
   @media only screen and (max-width: 769px) {
@@ -284,8 +284,10 @@
           </div>
         </div>
       <div class="textAlignCenter" id="submitBtn">
-        <input type="submit" value="Submit" id="submitBtn">
+        <input class="btn btn-primary submitBtn" type="submit" value="Update">
+        <a class="btn btn-danger submitBtn" href="{% url 'customer_delete' customer.id %}" role="button">Delete</a>
       </div>
+
       {% if form.errors %}
           {% for field in form %}
               {% for error in field.errors %}
