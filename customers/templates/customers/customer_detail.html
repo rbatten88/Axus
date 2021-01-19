@@ -23,7 +23,7 @@
       #id_notes, #id_exemption_number, #id_credit_limit, #id_credit_terms, #id_opening_balance, #id_opening_balance_date, #id_phone_number2,
       #id_phone_number3, #id_email2, #id_email3 { width: 100%; }
   #id_print_same { height: 20px; margin-left: 10px; width: 20px; vertical-align: middle; }
-  #id_additional_phone, #id_additional_email, #id_notes_popup, #id_is_exempt, #id_has_credit, #id_is_inactive, #id_additional_phon e2, 
+  #id_additional_phone, #id_additional_email, #id_notes_popup, #id_is_exempt, #id_has_credit, #id_is_inactive, #id_additional_phone2, 
       #id_additional_email2 { height: 20px; margin-right: 10px; width: 20px; vertical-align: middle; }
   #address { min-width: 100%; }
   #customerForm { color: gray; font-size: 16px; }
@@ -66,7 +66,7 @@
     <h2>Customer Detail</h2>
   </div>
   <div class="overflowWindow">
-    <form action="." method="POST" id="customerForm" enctype="multipart/form-data">
+    <form method="POST" id="customerForm" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="row">
         <div class="col-xs-12 col-md-6 col-xl-3">
@@ -289,7 +289,7 @@
         </div>
       <div class="textAlignCenter" id="submitBtn">
         <input class="btn btn-primary" type="submit" value="Update" id="submitBtn">
-        <a class="btn btn-danger submitBtn" href="{% url 'customer_delete' customer.id %}" role="button">Delete</a>
+        <a class="btn btn-danger submitBtn" href="{% url 'customer_delete' object.id %}" role="button">Delete</a>
       </div>
       {% if form.errors %}
         {% for field in form %}
@@ -351,25 +351,31 @@
   });
 
 
-  $('#id_phone_number').on('keyup', function() {
+  $('#id_phone_number, #id_phone_number2, #id_phone_number3').on('keyup', function() {
+    if ($(this).val().length === 10) {
+      if ($.isNumeric($(this).val())) {
+        $(this).val($(this).val().replace(/(\d{3})\-?(\d{3})\-?(\d{4})/,'$1-$2-$3'));
+      } else {
+        alert('Phone number field must be numerical ONLY!');
+        $(this).val('');
+        $(this).focus();
+      }
+    }
+  });
+
+/*
+  $('#id_phone_number2').on('keyup', function() {
     if ($(this).val().length === 10) {
       $(this).val($(this).val().replace(/(\d{3})\-?(\d{3})\-?(\d{4})/,'$1-$2-$3'));
     }
   });
 
 
-  $('#phone_number2').on('keyup', function() {
+  $('#id_phone_number3').on('keyup', function() {
     if ($(this).val().length === 10) {
       $(this).val($(this).val().replace(/(\d{3})\-?(\d{3})\-?(\d{4})/,'$1-$2-$3'));
     }
-  });
-
-
-  $('#phone_number3').on('keyup', function() {
-    if ($(this).val().length === 10) {
-      $(this).val($(this).val().replace(/(\d{3})\-?(\d{3})\-?(\d{4})/,'$1-$2-$3'));
-    }
-  });
+  });*/
 
 
   $('#id_print_same').change(function() {
@@ -401,10 +407,10 @@
     if ($('#id_additional_email').is(':checked') == true) {
       addEmail();
     }
-    if ($('#additional_phone2').is(':checked') == true) {
+    if ($('#id_additional_phone2').is(':checked') == true) {
       addPhone2();
     }
-    if ($('#additional_email2').is(':checked') == true) {
+    if ($('#id_additional_email2').is(':checked') == true) {
       addEmail2();
     }
   });
@@ -446,7 +452,8 @@
         $('#spacer2').css('display', 'none');
         $('#phone_number3_fieldset').show();
       } else {
-        ///additional_phone2 is checked while additional_email2 is checked or unchecked
+        ///additional_phone2 is checked while additional_email2 is unchecked
+        $('#spacer2').css('display', 'block');
         $('#phone_number3_fieldset').show();
       }
     } else {
@@ -457,6 +464,7 @@
         $('#phone_number3_fieldset').hide();
       } else {
         ///additional_phone2 is unchecked & additional_email2 is unchecked
+        $('#spacer2').css('display', 'none');
         $('#phone_number3_fieldset').hide();
       }
     }

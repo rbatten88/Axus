@@ -90,12 +90,10 @@ class WholesaleCustomerListView(ListView):
 
 
 class WholesaleCustomerUpdateView(UpdateView):
-	print("HERE")
 	model = WholesaleCustomer
 	form_class = WholesaleCustomerForm
 	template_name = 'customers/customer_detail.html'
 	context_object_name = 'customer'
-	success_url = 'customers/customer_list'
 
 
 class WholesaleCustomerDeleteView(DeleteView):
