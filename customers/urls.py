@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 
 urlpatterns = [
@@ -9,3 +8,4 @@ urlpatterns = [
 	path('delete/<int:pk>', views.WholesaleCustomerDeleteView.as_view(), name="customer_delete"),
 	path('upload/', views.customer_upload, name="customer_upload"),
 ]
+ 
