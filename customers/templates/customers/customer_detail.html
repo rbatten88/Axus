@@ -289,7 +289,7 @@
         </div>
       <div class="textAlignCenter" id="submitBtn">
         <input class="btn btn-primary" type="submit" value="Update" id="submitBtn">
-        <a class="btn btn-danger submitBtn" href="{% url 'customer_delete' object.id %}" role="button">Delete</a>
+        <a class="btn btn-danger submitBtn" href="{% url 'customer_delete' customer.id %}" role="button">Delete</a>
       </div>
       {% if form.errors %}
         {% for field in form %}
