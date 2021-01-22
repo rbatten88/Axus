@@ -7,7 +7,7 @@
   .pageSet { background-color: black; margin-top: 50px; padding-bottom: 24px; }
   .textAlignCenter { margin-bottom: 10px; text-align: center; }
   #id_name, #id_category { min-width: 100%; }
-  #productForm { color: gray; font-size: 16px; margin-top: 50px; }
+  #vendorForm { color: gray; font-size: 16px; margin-top: 50px; }
   #submitBtn { margin: 20px; }
 
   @media only screen and (max-width: 769px) {
@@ -32,27 +32,27 @@
 
 <div class="pageSet">
 	<div class="addCustomerLabel">
-    	<h2>Edit Product</h2>
+    	<h2>Edit Vendor</h2>
   	</div>
-    <form method="POST" id="productForm" enctype="multipart/form-data">
+    <form method="POST" id="vendorForm" enctype="multipart/form-data">
         {% csrf_token %}
 		<div class="col-xs-12 col-md-6 center">
 			{{ form.name.errors }}
-		  	<label for="{{ form.name.id_for_label }}">Product Name</label>
+		  	<label for="{{ form.name.id_for_label }}">Vendor Name</label>
 		  	<div>
 		    	{{ form.name }}
 		  	</div>
 		</div>
         <div class="col-xs-12 col-md-3 center">
 			{{ form.category.errors }}
-		  	<label for="{{ form.category.id_for_label }}">Product Category</label>
+		  	<label for="{{ form.category.id_for_label }}">Vendor Category</label>
 		  	<div>
 		    	{{ form.category }}
 		  	</div>
 		</div>
 		<div class="textAlignCenter" id="submitBtn">
         	<input class="btn btn-primary" type="submit" value="Submit" id="submitBtn">
-        	<a class="btn btn-danger submitBtn" href="{% url 'product_delete' product.id %}" role="button">Delete</a>
+        	<a class="btn btn-danger submitBtn" href="{% url 'vendor_delete' vendor.id %}" role="button">Delete</a>
       	</div>
     </form>
 </div>

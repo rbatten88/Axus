@@ -3,11 +3,12 @@ from django.db import models
 from django.urls import reverse
 
 # Create your models here.
-class Product(models.Model):
+class Vendor(models.Model):
 	categories = (
-		('', ''), ('Sod', 'Sod'),
-		('Compost', 'Compost'),
+		('', ''), ('Farm', 'Farm'),
 		('Pavers', 'Pavers'),
+		('Compost', 'Compost'),
+		('Other', 'Other'),
 	)
 	name = models.CharField(max_length=100, unique=True)
 	category = models.CharField(max_length=100, choices=categories, default='')
@@ -16,7 +17,7 @@ class Product(models.Model):
 		return f"{self.name}"
 
 	def get_absolute_url(self):
-		return reverse('product_list')
+		return reverse('vendor_list')
 
 	class Meta(object):
 		ordering = ['name']

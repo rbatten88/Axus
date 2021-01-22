@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect, FileResponse
+from django.shortcuts import render
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from .models import WholesaleCustomer
 from .forms import WholesaleCustomerForm
 from customers.functions.functions import upload_attachment

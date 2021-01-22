@@ -1,6 +1,5 @@
-from django.shortcuts import render
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from .models import Product
 from .forms import ProductForm
 
