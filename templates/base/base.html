@@ -115,8 +115,8 @@
       <a href="#">Banking</a>
       <a href="#">Reports</a>
       <a href="#">Workers</a>
-      <a href="#">Accounting</a>
-      <a href="#">Users</a>
+      <a href="{% url 'account_list' %}">Accounting</a>
+      <a href="{% url 'customer_upload' %}">Upload</a>
       <a href="{% url 'admin:index' %}">Admin</a>
     </div>
     <div class="content_set">{% block content %}{% endblock %}</div>

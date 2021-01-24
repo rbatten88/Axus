@@ -13,7 +13,7 @@ import csv, io
 def customer_upload(request):
 	template = 'customers/customer_upload.html'
 	prompt = {
-		'order': 'Order of csv should be Customer Name, Phone Number, Email, Contact, Street, City, State, Zipcode'
+		'order': 'Order of csv should be Customer: Name, Phone Number, Email, Contact, Street, City, State, Zipcode, 2nd Phone Number, 3rd Phone Number, 2nd Email, 3rd Email'
 	}
 	if request.method == "GET":
 		return render(request, template, prompt)
@@ -23,55 +23,70 @@ def customer_upload(request):
 	data_set = csv_file.read().decode('UTF-8')
 	io_string = io.StringIO(data_set)
 	next(io_string)
-	for column in csv.reader(io_string, delimiter=',', quotechar='"'):
-		if not column[2] == "":
-			email_match = WholesaleCustomer.objects.filter(email=column[3]).first()
-			if email_match == None:
-				if column[8] == "":
-					additional_phone=False
-				else:
-					additional_phone=True
-				if column[10] == "":
-					additional_email=False
-				else:
-					additional_email=True
-				_, wholesale_customer_created = WholesaleCustomer.objects.update_or_create(
-					company_name=column[0],
-					#phone_number_type='m',
-					phone_number=column[1],
-					email=column[2],
-					contact_name=column[3],
-					street=column[4],
-					city=column[5],
-					state=column[6],
-					zip_code=column[7],
-					print_same=True,
-					print_name=column[0],
-					additional_phone=additional_phone,
-					additional_email=additional_email,
-				)
-				if additional_phone == True:
-					customer = WholesaleCustomer.objects.latest('id')
-					'''if column[9] == 'office':
-						phone_number_type = 'o'
+	customer_list = csv.reader(io_string, delimiter=',', quotechar='"')
+	for column in customer_list:
+		name_match = WholesaleCustomer.objects.filter(name=column[0]).first()
+		if not name_match == None:
+			next(customer_list)
+			continue
+		else:
+			if not column[2] == "":
+				email_match = WholesaleCustomer.objects.filter(email=column[3]).first()
+				if email_match == None:
+					if column[8] == "":
+						additional_phone=False
 					else:
-						phone_number_type = 'm' '''
-					_, additional_phone_created = AdditionalPhone.objects.update_or_create(
-							company_name=customer,
-							#phone_number_type=phone_number_type,
-							phone_number=column[9],
+						additional_phone=True
+					if column[9] == "":
+						additional_email=False
+					else:
+						additional_email=True
+					if column[10] == "":
+						additional_email2=False
+					else:
+						additional_email2=True
+					_, wholesale_customer_created = WholesaleCustomer.objects.update_or_create(
+						name=column[0],
+						#phone_number_type='m',
+						phone_number=column[1],
+						email=column[2],
+						invoice_static=column[3],
+						street=column[4],
+						city=column[5],
+						state=column[6],
+						zip_code=column[7],
+						print_same=True,
+						print_name=column[0],
+						phone_number2=column[8],
+						email2=column[9],
+						email3=column[10],
+						additional_phone=additional_phone,
+						additional_email=additional_email,
+						additional_email2=additional_email2,
 					)
-				if additional_email == True:
-					customer = WholesaleCustomer.objects.latest('id')
-					_, additional_email_created = AdditionalEmail.objects.update_or_create(
-							company_name=customer,
-							add_email=column[10],
-					)
-					if not column[11] == '':
-						_, additional_email_created = AdditionalEmail.objects.update_or_create(
-							company_name=customer,
-							add_email=column[11],
+					'''
+					if additional_phone == True:
+						customer = WholesaleCustomer.objects.latest('id')
+						if column[9] == 'office':
+							phone_number_type = 'o'
+						else:
+							phone_number_type = 'm'
+						_, additional_phone_created = AdditionalPhone.objects.update_or_create(
+								name=customer,
+								#phone_number_type=phone_number_type,
+								phone_number=column[9],
 						)
+					if additional_email == True:
+						customer = WholesaleCustomer.objects.latest('id')
+						_, additional_email_created = AdditionalEmail.objects.update_or_create(
+								name=customer,
+								add_email=column[10],
+						)
+						if not column[11] == '':
+							_, additional_email_created = AdditionalEmail.objects.update_or_create(
+								name=customer,
+								add_email=column[11],
+							)'''
 	context = {}
 	return render(request, template, context)
 

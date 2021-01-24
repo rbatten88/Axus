@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
+    'profiles',
     'customers',
     'home',
     'products',
     'vendors',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -139,4 +140,4 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = 'homepage'
 
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'profiles.CustomUser'

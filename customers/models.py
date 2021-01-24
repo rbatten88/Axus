@@ -9,24 +9,24 @@ class WholesaleCustomer(models.Model):
 		('NC', 'NC'),
 		('SC', 'SC'),
 		('VA', 'VA'),
+		('KY', 'KY'),
 	)
 	terms = (
 		('', ''),
 		('Net 30', 'Net 30'),
 		('Net 60', 'Net 60'),
 	)
-	company_name = models.CharField(max_length=100, unique=True)
-	contact_name = models.CharField(max_length=100, null=True, blank=True)
+	name = models.CharField(max_length=100, unique=True)
 	phone_number = models.CharField(max_length=12, unique=True)
 	additional_phone = models.BooleanField(default=False)
-	phone_number2 = models.CharField(max_length=12, unique=True, null=True, blank=True)
+	phone_number2 = models.CharField(max_length=12, null=True, blank=True)
 	additional_phone2 = models.BooleanField(default=False)
-	phone_number3 = models.CharField(max_length=12, unique=True, null=True, blank=True)
-	email = models.EmailField(max_length=64, unique=True, null=True, blank=True)
+	phone_number3 = models.CharField(max_length=12, null=True, blank=True)
+	email = models.EmailField(max_length=64, null=True, blank=True)
 	additional_email = models.BooleanField(default=False)
-	email2 = models.EmailField(max_length=64, unique=True, null=True, blank=True)
+	email2 = models.EmailField(max_length=64, null=True, blank=True)
 	additional_email2 = models.BooleanField(default=False)
-	email3 = models.EmailField(max_length=64, unique=True, null=True, blank=True)
+	email3 = models.EmailField(max_length=64, null=True, blank=True)
 	print_same = models.BooleanField(default=True)
 	print_name = models.CharField(max_length=100)
 	invoice_static = models.CharField(max_length=100, null=True, blank=True)
@@ -48,11 +48,11 @@ class WholesaleCustomer(models.Model):
 	is_inactive = models.BooleanField(default=False)
 
 	def __str__(self):
-		return f"{self.company_name}"
+		return f"{self.name}"
 
 	def get_absolute_url(self):
 		return reverse('customer_list')
 
 	class Meta(object):
-		ordering = ['company_name']
+		ordering = ['name']
 		

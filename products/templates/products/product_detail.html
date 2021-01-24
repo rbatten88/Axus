@@ -2,7 +2,7 @@
 {% block content %}
 <style type="text/css">
 
-  .addCustomerLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+  .addProductLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
   .center { align-items: center; margin: 10px auto; }
   .pageSet { background-color: black; margin-top: 50px; padding-bottom: 24px; }
   .textAlignCenter { margin-bottom: 10px; text-align: center; }
@@ -11,7 +11,7 @@
   #submitBtn { margin: 20px; }
 
   @media only screen and (max-width: 769px) {
-    .addCustomerLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+    .addProductLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
     .pageSet { float:none; margin-left: 0; width: 100%; }
   }
 
@@ -19,19 +19,19 @@
   }
 
   @media only screen and (max-width: 480px) {
-    .addCustomerLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+    .addProductLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
     .pageSet { float:none; height: 100%; margin-left: 0; width: 100%; }
   }
 
   @media only screen and (max-height: 600px) and (orientation: landscape) {
-    .addCustomerLabel { color: #3385ff; font-size: 30px; margin: 0 20px;}
+    .addProductLabel { color: #3385ff; font-size: 30px; margin: 0 20px;}
     .pageSet { background-color: black; float:none; margin-left: 0; min-height: 130vh; overflow: auto; width: 100%; }
     }
 
 </style>
 
 <div class="pageSet">
-	<div class="addCustomerLabel">
+	<div class="addProductLabel">
     	<h2>Edit Product</h2>
   	</div>
     <form method="POST" id="productForm" enctype="multipart/form-data">

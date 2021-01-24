@@ -6,7 +6,7 @@ class WholesaleCustomerForm(forms.ModelForm):
 		model = WholesaleCustomer
 		fields = '__all__'
 		widgets = {
-			'company_name': forms.TextInput(attrs={'autofocus': 'true', 'class': 'form-control'}),
+			'name': forms.TextInput(attrs={'autofocus': 'true', 'class': 'form-control'}),
 			'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
 			'additional_phone': forms.CheckboxInput(attrs={'tabindex': '-1'}),
 			'phone_number2': forms.TextInput(attrs={'class': 'form-control'}),

@@ -3,8 +3,8 @@ from .models import WholesaleCustomer
 
 
 class WholesaleCustomerAdmin(admin.ModelAdmin):
-	list_display = ['company_name', 'phone_number']
-	search_fields = ['company_name']
+	list_display = ['name', 'phone_number']
+	search_fields = ['name']
 		
 
 # Register your models here.

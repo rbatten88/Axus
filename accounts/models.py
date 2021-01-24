@@ -1,14 +1,18 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib import admin
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
-class CustomUser(AbstractUser):
-	locations = (
-		('hm', 'Home'),
-	)
-	access_levels = (
-		('s', 'Sales'), ('d', 'Drivers'), ('m', 'Management'), ('a', 'Admin'),
-	)
-	contact_number = models.CharField(max_length=12, unique=True)
-	location = models.CharField(max_length=4, choices=locations, default='Home')
-	access_level = models.CharField(max_length=10, choices=access_levels, default='Sales')
+class Account(models.Model):
+	name = models.CharField(max_length=100, unique=True)
+	description = models.CharField(max_length=100)
+
+	def __str__(self):
+		return f"{self.name}"
+
+	def get_absolute_url(self):
+		return reverse('account_list')
+
+	class Meta(object):
+		ordering = ['name']
+		

@@ -1,17 +1,11 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import CustomUser
+from .models import Account
 
-
-class CustomUserCreationForm(UserCreationForm):
-
-	class Meta(UserCreationForm):
-		model = CustomUser
-		fields = UserCreationForm.Meta.fields + ('contact_number', 'location', 'access_level',)
-
-
-class CustomUserChangeForm(UserChangeForm):
-	
+class AccountForm(forms.ModelForm):
 	class Meta:
-		model = CustomUser
-		fields = UserChangeForm.Meta.fields
+		model = Account
+		fields = '__all__'
+		widgets = {
+			'name': forms.TextInput(attrs={'autofocus': 'true', 'class': 'form-control'}),
+			'description': forms.TextInput(attrs={'class': 'form-control'}),
+		} 

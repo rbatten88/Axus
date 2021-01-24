@@ -70,10 +70,10 @@
       {% csrf_token %}
       <div class="row">
         <div class="col-xs-12 col-md-6 col-xl-3">
-          {{ form.company_name.errors }}
-          <label for="{{ form.company_name.id_for_label }}">Company Name</label>
+          {{ form.name.errors }}
+          <label for="{{ form.name.id_for_label }}">Company Name</label>
           <div>
-            {{ form.company_name }}
+            {{ form.name }}
           </div>
         </div>
         <div class="col-xs-12 col-md-6 col-xl-3">

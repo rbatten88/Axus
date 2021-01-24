@@ -19,7 +19,7 @@
   .textAlignCenter { margin-bottom: 10px; text-align: center; }
   #id_attachments { min-width: 100%; }
   #id_state, #id_credit_terms { height: 38px; }
-  #id_company_name, #id_phone_number, #id_email, #id_print_name, #id_street, #id_city, #id_state, #id_zip_code, #id_invoice_static, 
+  #id_name, #id_phone_number, #id_email, #id_print_name, #id_street, #id_city, #id_state, #id_zip_code, #id_invoice_static, 
       #id_notes, #id_exemption_number, #id_credit_limit, #id_credit_terms, #id_opening_balance, #id_opening_balance_date, #id_phone_number2,
       #id_phone_number3, #id_email2, #id_email3 { width: 100%; }
   #id_print_same { height: 20px; margin-left: 10px; width: 20px; vertical-align: middle; }
@@ -70,10 +70,10 @@
       {% csrf_token %}
       <div class="row">
         <div class="col-xs-12 col-md-6 col-xl-3">
-          {{ form.company_name.errors }}
-          <label for="{{ form.company_name.id_for_label }}">Company Name</label>
+          {{ form.name.errors }}
+          <label for="{{ form.name.id_for_label }}">Company Name</label>
           <div>
-            {{ form.company_name }}
+            {{ form.name }}
           </div>
         </div>
         <div class="col-xs-12 col-md-6 col-xl-3">
