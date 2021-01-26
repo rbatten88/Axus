@@ -1,3 +1,10 @@
+{% extends 'base/_base.html' %}
+{% block content %}
+<style type="text/css">
+	#custom_file { margin: 20px 0 20px; max-width: 500px; text-align: left; }
+	#order { color: red; margin: auto; max-width: 600px; }
+	#uploadForm { color: gray; font-size: 18px; margin-top: 100px; text-align: center; }
+</style>
 {% if messages %}
 	{% for message in messages %}
 		<div>
@@ -5,12 +12,24 @@
 		</div>
 	{% endfor %}
 {% else %}
-{{order}}
-<form method="POST" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data" id="uploadForm">
 	{% csrf_token %}
-	<label>Upload a file</label>
-	<input type="file" name="file">
-	<p>Only accepts csv files</p>
-	<button type="submit">Upload</button>
+	<div id="order">
+		{{ order }}
+	</div>
+	<div class="custom-file" id="custom_file">
+		<input type="file" class="custom-file-input" id="customFile" name="filename">
+		<label class="custom-file-label" for="customFile">Choose file</label>
+    </div>
+	<p><b>(Only accepts csv files)</b></p>
+	<button class="btn btn-primary" type="submit">Upload</button>
 </form>
+<script>
+	// Add the following code if you want the name of the file appear on select
+	$(".custom-file-input").on("change", function() {
+		var fileName = $(this).val().split("\\").pop();
+		$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+	});
+</script>
 {% endif %}
+{% endblock %}

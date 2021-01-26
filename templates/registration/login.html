@@ -1,6 +1,77 @@
-<h2>Log In</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
-</form>
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <title>Nexus | Login</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="shortcut icon" href="{% static 'base/img/ssls_favicon.ico' %}">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src= "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" > </script>-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <style type="text/css">
+            body { background-color: black; }
+            .container-fluid { background-color: black; padding: 0px; height: 100vh; }
+            .loginLabel { color: #3385ff; font-size: 30px; margin: 51px 10px 0 180px;}
+            .center { align-items: center; margin: 10px auto; }
+            .pageSet { background-color: black; margin-top: 50px; padding-bottom: 24px; }
+            .textAlignCenter { margin-bottom: 10px; text-align: center; }
+            #id_username, #id_password { border: 1px solid #ced4da; border-radius: .25rem; font-size: 1rem; height: calc(1.5em + .75rem + 2px); line-height: 1.5; min-width: 100%; padding: .375rem .75rem; }
+            #loginForm { color: gray;  margin-top: 50px; }
+            #submitBtn { margin: 20px; }
+
+            @media only screen and (max-width: 769px) {
+                .loginLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+                .pageSet { float:none; margin-left: 0; width: 100%; }
+            }
+
+            @media only screen and (max-width: 1025px) {
+            }
+
+            @media only screen and (max-width: 480px) {
+                .loginLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+                .pageSet { float:none; height: 100%; margin-left: 0; width: 100%; }
+            }
+
+            @media only screen and (max-height: 600px) and (orientation: landscape) {
+                .loginLabel { color: #3385ff; font-size: 30px; margin: 0 20px;}
+                .pageSet { background-color: black; float:none; margin-left: 0; min-height: 130vh; overflow: auto; width: 100%; }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="pageSet">
+                <div class="loginLabel">
+                    <h2>User Login</h2>
+                </div>
+                <form method="post" id="loginForm">
+                    {% csrf_token %}
+                    <div class="col-xs-12 col-md-3 center">
+                        {{ form.username.errors }}
+                        <label for="{{ form.username.id_for_label }}">Username</label>
+                        <div>
+                            {{ form.username }}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-3 center">
+                        {{ form.password.errors }}
+                        <label for="{{ form.password.id_for_label }}">Password</label>
+                        <div>
+                            {{ form.password }}
+                        </div>
+                    </div>
+                    <div class="textAlignCenter" id="submitBtn">
+                        <input class="btn btn-primary" type="submit" value="Login" id="submitBtn">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

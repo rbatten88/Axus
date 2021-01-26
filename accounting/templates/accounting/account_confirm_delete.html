@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/_base.html' %}
 {% block content %}
 <style type="text/css">
 	.pageSet { background-color: black; margin-top: 250px; padding-bottom: 24px; text-align: center; }
@@ -7,8 +7,8 @@
 <div class="pageSet">
 	<form method="post">
 		{% csrf_token %} 
-	    <p>Are you sure you want to delete account - "{{ object }}"?</p> 
-	    <input class="btn btn-danger" type="submit" value="Confirm"> 
+		<p>Are you sure you want to delete account - "{{ object }}"?</p> 
+		<input class="btn btn-danger" type="submit" value="Confirm"> 
 	</form>
 </div>
 {% endblock %} 

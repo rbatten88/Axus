@@ -56,3 +56,13 @@ class WholesaleCustomer(models.Model):
 	class Meta(object):
 		ordering = ['name']
 		
+
+class WCAdditionalEmail(models.Model):
+	name = models.ForeignKey(WholesaleCustomer, on_delete=models.CASCADE)
+	email = models.EmailField(max_length=64, null=True, blank=True)
+
+	def __str__(self):
+		return f"{self.email}"
+
+	class Meta(object):
+		ordering = ['name']

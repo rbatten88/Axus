@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base/_base.html' %}
 {% block content %}
 <style type="text/css">
 
@@ -36,23 +36,23 @@
   	</div>
     <form action="." method="POST" id="productForm" enctype="multipart/form-data">
         {% csrf_token %}
-		<div class="col-xs-12 col-md-6 center">
-			{{ form.name.errors }}
-		  	<label for="{{ form.name.id_for_label }}">Product Name</label>
-		  	<div>
-		    	{{ form.name }}
-		  	</div>
-		</div>
-        <div class="col-xs-12 col-md-3 center">
-			{{ form.category.errors }}
-		  	<label for="{{ form.category.id_for_label }}">Product Category</label>
-		  	<div>
-		    	{{ form.category }}
-		  	</div>
-		</div>
-		<div class="textAlignCenter" id="submitBtn">
-        	<input class="btn btn-primary" type="submit" value="Submit" id="submitBtn">
-      	</div>
+    		<div class="col-xs-12 col-md-6 center">
+    			{{ form.name.errors }}
+    		  	<label for="{{ form.name.id_for_label }}">Product Name</label>
+    		  	<div>
+    		    	{{ form.name }}
+    		  	</div>
+    		</div>
+            <div class="col-xs-12 col-md-3 center">
+    			{{ form.category.errors }}
+    		  	<label for="{{ form.category.id_for_label }}">Product Category</label>
+    		  	<div>
+    		    	{{ form.category }}
+    		  	</div>
+    		</div>
+    		<div class="textAlignCenter" id="submitBtn">
+          	<input class="btn btn-primary" type="submit" value="Submit" id="submitBtn">
+        </div>
     </form>
 </div>
 {% endblock %}

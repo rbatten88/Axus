@@ -1,0 +1,56 @@
+{% extends 'base/_base.html' %}
+{% block content %}
+<style type="text/css">
+    .addAccountingLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+    .center { align-items: center; margin: 10px auto; }
+    .pageSet { background-color: black; margin-top: 50px; padding-bottom: 24px; }
+    .textAlignCenter { margin-bottom: 10px; text-align: center; }
+    #id_name, #id_description { min-width: 100%; }
+    #accountingForm { color: gray; font-size: 16px; margin-top: 50px; }
+    #submitBtn { margin: 20px; }
+
+    @media only screen and (max-width: 769px) {
+        .addAccountingLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+        .pageSet { float:none; margin-left: 0; width: 100%; }
+    }
+
+    @media only screen and (max-width: 1025px) {
+    }
+
+    @media only screen and (max-width: 480px) {
+        .addAccountingLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+        .pageSet { float:none; height: 100%; margin-left: 0; width: 100%; }
+    }
+
+    @media only screen and (max-height: 600px) and (orientation: landscape) {
+        .addAccountingLabel { color: #3385ff; font-size: 30px; margin: 0 20px;}
+        .pageSet { background-color: black; float:none; margin-left: 0; min-height: 130vh; overflow: auto; width: 100%; }
+    }
+</style>
+
+<div class="pageSet">
+	<div class="addAccountingLabel">
+        <h2>Add Account</h2>
+  	</div>
+    <form action="." method="POST" id="accountingForm" enctype="multipart/form-data">
+        {% csrf_token %}
+		<div class="col-xs-12 col-md-6 center">
+			{{ form.name.errors }}
+		  	<label for="{{ form.name.id_for_label }}">Account Name</label>
+		  	<div>
+		    	{{ form.name }}
+		  	</div>
+		</div>
+        <div class="col-xs-12 col-md-3 center">
+			{{ form.description.errors }}
+		  	<label for="{{ form.description.id_for_label }}">Account Description</label>
+		  	<div>
+		    	{{ form.description }}
+		  	</div>
+		</div>
+		<div class="textAlignCenter" id="submitBtn">
+        	<input class="btn btn-primary" type="submit" value="Submit" id="submitBtn">
+      	</div>
+    </form>
+</div>
+{% endblock %}

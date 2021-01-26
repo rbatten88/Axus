@@ -1,13 +1,8 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
-
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
-def homepage(request):
-	if request.user.is_authenticated:
-		title = 'Home'
-		return render(request, 'home/homepage.html', {'title': title})
-	else:
-		return redirect('/home/login/')
-		
+class HomepageView(LoginRequiredMixin, TemplateView):
+	login_url = 'home/login/'
+	template_name = 'home/homepage.html'
+	title = 'Home'

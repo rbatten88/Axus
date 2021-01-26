@@ -1,5 +1,5 @@
 from django import forms
-from .models import WholesaleCustomer
+from .models import WholesaleCustomer, WCAdditionalEmail
 
 class WholesaleCustomerForm(forms.ModelForm):
 	class Meta:
@@ -32,3 +32,11 @@ class WholesaleCustomerForm(forms.ModelForm):
 			'opening_balance': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'true', 'style': 'margin-bottom: 10px;'}),
 			'opening_balance_date': forms.DateInput(attrs={'class': 'form-control', 'disabled': '', 'style': 'margin-bottom: 10px;'}),
 		} 
+
+class WCAdditionalEmailForm(forms.ModelForm):
+	class Meta:
+		model = WCAdditionalEmail
+		fields = ['email']
+		widgets = {
+			'email': forms.EmailInput(attrs={'class': 'form-control'}),
+		}
