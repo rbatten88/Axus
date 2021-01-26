@@ -3,7 +3,7 @@ from django.views.generic import ListView, UpdateView, DeleteView
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.urls import reverse_lazy
-from .models import WholesaleCustomer, WCAdditionalEmail
+from .models import WholesaleCustomer, WCAdditionalEmail, WCAdditionalPhone
 from .forms import WholesaleCustomerForm, WCAdditionalEmailForm
 from customers.functions.functions import upload_attachment
 import csv, io
@@ -41,9 +41,8 @@ def customer_upload(request):
 					additional_email2=False
 				else:
 					additional_email2=True
-				_, wholesale_customer_created = WholesaleCustomer.objects.update_or_create(
+				wholesale_customer_created = WholesaleCustomer.objects.update_or_create(
 					name=column[0],
-					#phone_number_type='m',
 					phone_number=column[1],
 					email=column[2],
 					invoice_static=column[3],
@@ -60,29 +59,24 @@ def customer_upload(request):
 					additional_email=additional_email,
 					additional_email2=additional_email2,
 				)
-				'''
 				if additional_phone == True:
 					customer = WholesaleCustomer.objects.latest('id')
-					if column[9] == 'office':
-						phone_number_type = 'o'
-					else:
-						phone_number_type = 'm'
-					_, additional_phone_created = AdditionalPhone.objects.update_or_create(
-							name=customer,
-							#phone_number_type=phone_number_type,
-							phone_number=column[9],
+					additional_phone_created = WCAdditionalPhone.objects.update_or_create(
+						name=customer,
+						phone_number=column[8],
 					)
 				if additional_email == True:
 					customer = WholesaleCustomer.objects.latest('id')
-					_, additional_email_created = AdditionalEmail.objects.update_or_create(
-							name=customer,
-							add_email=column[10],
+					additional_email_created = WCAdditionalEmail.objects.update_or_create(
+						name=customer,
+						email=column[9],
 					)
-					if not column[11] == '':
-						_, additional_email_created = AdditionalEmail.objects.update_or_create(
-							name=customer,
-							add_email=column[11],
-						)'''
+				if additional_email2 == True:
+					customer = WholesaleCustomer.objects.latest('id')
+					additional_email_created = WCAdditionalEmail.objects.update_or_create(
+						name=customer,
+						email=column[10],
+					)
 	return redirect(reverse('customer_list'))
 
 

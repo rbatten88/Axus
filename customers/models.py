@@ -62,7 +62,18 @@ class WCAdditionalEmail(models.Model):
 	email = models.EmailField(max_length=64, null=True, blank=True)
 
 	def __str__(self):
-		return f"{self.email}"
+		return f"{self.name}"
+
+	class Meta(object):
+		ordering = ['name']
+
+
+class WCAdditionalPhone(models.Model):
+	name = models.ForeignKey(WholesaleCustomer, on_delete=models.CASCADE)
+	phone_number = models.CharField(max_length=12, unique=True)
+
+	def __str__(self):
+		return f"{self.name}"
 
 	class Meta(object):
 		ordering = ['name']
