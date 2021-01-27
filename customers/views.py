@@ -119,9 +119,10 @@ def WholesaleCustomerCreateView(request):
 
 
 class WholesaleCustomerCreateView(CreateView):
-	model = WholesaleCustomer
-	context_object_name = 'customer'
-	template_name = 'customers/customer_add.html'
+    model = WholesaleCustomer
+    form_class = WholesaleCustomerForm
+    context_object_name = 'customer'
+    template_name = 'customers/customer_add.html'
 
 
 class WholesaleCustomerListView(ListView):
@@ -131,9 +132,10 @@ class WholesaleCustomerListView(ListView):
 
 
 class WholesaleCustomerUpdateView(UpdateView):
-	model = WholesaleCustomer
-	context_object_name = 'customer'
-	template_name = 'customers/customer_detail.html'
+    model = WholesaleCustomer
+    form_class = WholesaleCustomerForm
+    context_object_name = 'customer'
+    template_name = 'customers/customer_detail.html'
 
 
 class WholesaleCustomerDeleteView(DeleteView):
