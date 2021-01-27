@@ -1,10 +1,10 @@
 from django.shortcuts import render, reverse, redirect
-from django.views.generic import ListView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.urls import reverse_lazy
-from .models import WholesaleCustomer, WCAdditionalEmail, WCAdditionalPhone
-from .forms import WholesaleCustomerForm, WCAdditionalEmailForm
+from .models import WholesaleCustomer
+from .forms import WholesaleCustomerForm
 from customers.functions.functions import upload_attachment
 import csv, io
 from django.http import HttpResponse
@@ -30,21 +30,25 @@ def customer_upload(request):
 			email_match = WholesaleCustomer.objects.filter(email=column[3]).first()
 			if email_match == None:
 				if column[8] == "":
-					additional_phone=False
+					additional_phone = False
 				else:
-					additional_phone=True
+					additional_phone = True
+					phone_number2 = column[8]
 				if column[9] == "":
-					additional_email=False
+					additional_email = False
+					email2 = ''
 				else:
-					additional_email=True
+					additional_email = True
+					email2 = column[9]
 				if column[10] == "":
-					additional_email2=False
+					additional_email2 = False
+					email3 = ''
 				else:
-					additional_email2=True
+					additional_email2 = True
+					email3 = column[10]
 				wholesale_customer_created = WholesaleCustomer.objects.update_or_create(
 					name=column[0],
 					phone_number=column[1],
-					email=column[2],
 					invoice_static=column[3],
 					street=column[4],
 					city=column[5],
@@ -52,34 +56,42 @@ def customer_upload(request):
 					zip_code=column[7],
 					print_same=True,
 					print_name=column[0],
-					phone_number2=column[8],
-					email2=column[9],
-					email3=column[10],
 					additional_phone=additional_phone,
+					phone_number2=phone_number2,
 					additional_email=additional_email,
+					email2=email2,
 					additional_email2=additional_email2,
+					email3=email3,
+				)
+				'''
+				customer = WholesaleCustomer.objects.latest('id')
+				additional_phone_created = WCAdditionalPhone.objects.update_or_create(
+						name=customer,
+						phone_number=column[1],
 				)
 				if additional_phone == True:
-					customer = WholesaleCustomer.objects.latest('id')
 					additional_phone_created = WCAdditionalPhone.objects.update_or_create(
 						name=customer,
 						phone_number=column[8],
 					)
-				if additional_email == True:
-					customer = WholesaleCustomer.objects.latest('id')
+				if not column[2] == "":
 					additional_email_created = WCAdditionalEmail.objects.update_or_create(
 						name=customer,
-						email=column[9],
+						email=column[2],
 					)
-				if additional_email2 == True:
-					customer = WholesaleCustomer.objects.latest('id')
-					additional_email_created = WCAdditionalEmail.objects.update_or_create(
-						name=customer,
-						email=column[10],
-					)
+					if additional_email == True:
+						additional_email_created = WCAdditionalEmail.objects.update_or_create(
+							name=customer,
+							email=column[9],
+						)
+					if additional_email2 == True:
+						additional_email_created = WCAdditionalEmail.objects.update_or_create(
+							name=customer,
+							email=column[10],
+						)'''
 	return redirect(reverse('customer_list'))
 
-
+'''
 def WholesaleCustomerCreateView(request):
 	if request.method == 'POST':
 		customer_form = WholesaleCustomerForm(request.POST)
@@ -103,7 +115,13 @@ def WholesaleCustomerCreateView(request):
 		'email_form2': email_form2,
 		'email_form3': email_form3,
 	}
-	return render(request, 'customers/customer_create.html', context)
+	return render(request, 'customers/customer_create.html', context)'''
+
+
+class WholesaleCustomerCreateView(CreateView):
+	model = WholesaleCustomer
+	context_object_name = 'customer'
+	template_name = 'customers/customer_add.html'
 
 
 class WholesaleCustomerListView(ListView):
@@ -112,9 +130,10 @@ class WholesaleCustomerListView(ListView):
     template_name = 'customers/customer_list.html'
 
 
-def WholesaleCustomerUpdateView(request, pk):
-	email = WCAdditionalEmail.objects.filter(name_id=pk)
-	return HttpResponse(email)
+class WholesaleCustomerUpdateView(UpdateView):
+	model = WholesaleCustomer
+	context_object_name = 'customer'
+	template_name = 'customers/customer_detail.html'
 
 
 class WholesaleCustomerDeleteView(DeleteView):
