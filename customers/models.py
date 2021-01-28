@@ -1,22 +1,20 @@
-from django.contrib import admin
 from django.db import models
 from django.urls import reverse
 
 # Create your models here.
 class WholesaleCustomer(models.Model):
+	'''
+	customer_types = (
+		('', ''), ('Retail', 'Retail'), ('Wholesale', 'Wholesale'),
+	)'''
 	states = (
-		('', ''),
-		('NC', 'NC'),
-		('SC', 'SC'),
-		('VA', 'VA'),
-		('KY', 'KY'),
+		('', ''), ('NC', 'NC'), ('SC', 'SC'), ('VA', 'VA'), ('KY', 'KY'),
 	)
 	terms = (
-		('', ''),
-		('Net 30', 'Net 30'),
-		('Net 60', 'Net 60'),
+		('', ''), ('Net 30', 'Net 30'), ('Net 60', 'Net 60'),
 	)
 	name = models.CharField(max_length=100, unique=True)
+	#customer_type = models.CharField(max_length=9, choices=customer_types, default='')
 	phone_number = models.CharField(max_length=12, unique=True)
 	additional_phone = models.BooleanField(default=False)
 	phone_number2 = models.CharField(max_length=12, null=True, blank=True)
@@ -45,6 +43,7 @@ class WholesaleCustomer(models.Model):
 	opening_balance = models.IntegerField(null=True, blank=True)
 	opening_balance_date = models.DateField(null=True, blank=True)
 	has_attachments = models.BooleanField(default=False)
+	#attachments = models.FileField()
 	is_inactive = models.BooleanField(default=False)
 
 	def __str__(self):

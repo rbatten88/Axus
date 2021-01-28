@@ -4,10 +4,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.urls import reverse_lazy
 from .models import WholesaleCustomer
-from .forms import WholesaleCustomerForm
+from .forms import WholesaleCustomerForm, WholesaleCustomerEditForm
 from customers.functions.functions import upload_attachment
 import csv, io
-from django.http import HttpResponse
 
 # Create your views here.
 @permission_required('admin.can_add_log_entry')
@@ -133,7 +132,7 @@ class WholesaleCustomerListView(ListView):
 
 class WholesaleCustomerUpdateView(UpdateView):
     model = WholesaleCustomer
-    form_class = WholesaleCustomerForm
+    form_class = WholesaleCustomerEditForm
     context_object_name = 'customer'
     template_name = 'customers/customer_detail.html'
 

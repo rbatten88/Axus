@@ -1,7 +1,7 @@
 {% extends 'base/_base.html' %}
 {% block content %}
 <style type="text/css">
-  .attachment_dropzone { margin: 50px auto; min-width: 85%; height: 150px; background-color: white; border: none; }
+  .attachment_dropzone { margin: 20px 50px 50px; min-width: 85%; height: 150px; background-color: white; border: none; }
   .center { align-items: center; margin: 10px auto; }
   .pageSet { background-color: black; margin-top: 50px; padding-bottom: 24px; }
   .row { margin: auto; width: 100%; }
@@ -18,7 +18,7 @@
   .tab-content { border: 1px solid lightgray; min-height: 34vh; margin: 0px 10px; padding: 12px 0; position: relative; }
   .textAlignCenter { margin-bottom: 10px; text-align: center; }
   #id_attachments { min-width: 100%; }
-  #id_state, #id_credit_terms { height: 31px; }
+  #id_state, #id_credit_terms { height: 38px; }
   #id_company_name, #id_phone_number, #id_email, #id_print_name, #id_street, #id_city, #id_state, #id_zip_code, #id_invoice_static, 
       #id_notes, #id_exemption_number, #id_credit_limit, #id_credit_terms, #id_opening_balance, #id_opening_balance_date, #id_phone_number2,
       #id_phone_number3, #id_email2, #id_email3 { width: 100%; }
@@ -32,7 +32,10 @@
   #id_notes { height: 30px; }
   #phone_number2_fieldset, #email2_fieldset, #phone_number3_fieldset, #email3_fieldset { display: none; margin-top: 10px; }
   #spacer, #spacer2 { display: none; }
-  #submitBtn { margin: 20px; }
+  #editBtn { display: inline; }
+  #deleteBtn, #editBtn, #updateBtn { margin: 0px 10px; min-width: 77px; }
+  #updateBtn { display: none; }
+  #submitBtnFieldSet { margin: 20px; }
   a.active { background-color: darkgray !important; color: black !important; }
 
   @media only screen and (max-width: 769px) {
@@ -287,9 +290,10 @@
             </div>
           </div>
         </div>
-      <div class="textAlignCenter" id="submitBtn">
-        <input class="btn btn-primary" type="submit" value="Update" id="submitBtn">
-        <a class="btn btn-danger submitBtn" href="{% url 'customer_delete' customer.id %}" role="button">Delete</a>
+      <div class="textAlignCenter" id="submitBtnFieldSet">
+        <input class="btn btn-primary" type="button" value="Edit" id="editBtn">
+        <input class="btn btn-primary" type="submit" value="Update" id="updateBtn">
+        <a class="btn btn-danger" href="{% url 'customer_delete' customer.id %}" id="deleteBtn" role="button">Delete</a>
       </div>
       {% if form.errors %}
         {% for field in form %}
@@ -310,6 +314,34 @@
 </div>
 
 <script type="text/javascript">
+
+  $('#editBtn').on('click', function() {
+    $(this).hide();
+    $('#updateBtn').show();
+    $('#id_name').attr('readonly', false);
+    $('#id_additional_phone').attr('disabled', false);
+    $('#id_phone_number').attr('readonly', false);
+    $('#id_additional_phone2').attr('disabled', false);
+    $('#id_phone_number2').attr('readonly', false);
+    $('#id_phone_number3').attr('readonly', false);
+    $('#id_additional_email').attr('disabled', false);
+    $('#id_email').attr('readonly', false);
+    $('#id_additional_email2').attr('disabled', false);
+    $('#id_email2').attr('readonly', false);
+    $('#id_email3').attr('readonly', false);
+    $('#id_print_same').attr('disabled', false);
+    $('#id_street').attr('readonly', false);
+    $('#id_city').attr('readonly', false);
+    $('#id_state').attr('disabled', false);
+    $('#id_zip_code').attr('readonly', false);
+    $('#id_invoice_static').attr('readonly', false);
+    $('#id_is_inactive').attr('disabled', false);
+    $('#id_notes_popup').attr('disabled', false);
+    $('#id_notes').attr('readonly', false);
+    $('#id_is_exempt').attr('disabled', false);
+    $('#id_has_credit').attr('disabled', false);
+
+  });
 
 
   $('#id_is_exempt').change(function() {
@@ -343,10 +375,10 @@
   });
 
 
-  $('#id_company_name').on('blur', function () {
+  $('#id_name').on('blur', function () {
     if ($('#id_print_same').is(':checked') == true) {
-      let companyName = $('#id_company_name').val();
-      $('#id_print_name').val(companyName);
+      let name = $('#id_name').val();
+      $('#id_print_name').val(name);
     }
   });
 
@@ -380,8 +412,8 @@
 
   $('#id_print_same').change(function() {
     if ($('#id_print_same').is(':checked') == true) {
-      let companyName = $('#id_company_name').val();
-      $('#id_print_name').val(companyName);
+      let name = $('#id_name').val();
+      $('#id_print_name').val(name);
       $('#id_print_name').attr('readonly', true);
     } else {
       $('#id_print_name').attr('readonly', false);
