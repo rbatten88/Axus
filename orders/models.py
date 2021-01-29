@@ -28,7 +28,7 @@ class Order(models.Model):
 	status_delivered = models.BooleanField(default=False)
 	status_invoice_paid= models.BooleanField(default=False)
 	status_completed = models.BooleanField(default=False)
-	entered_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	entered_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+', default='')
 	entered_on = models.DateField()
 	last_modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	last_modified_on = models.DateField()
