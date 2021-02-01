@@ -57,21 +57,23 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Order Number</th>
           <th>Customer Name</th>
+          <th>Type</th>
           <th>Item</th>
           <th>Quantity</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
         {% for order in orders %}
           <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
-            <td><div class="transform-media">{{ order.id}}</div></td>
             <td><div class="transform-media">{{ order.customer }}</div></td>
+            <td><div class="transform-media">{{ order.transfer_type }}</div></td>
             {% for item in order.items.all %}
               <td><div class="transform-media">{{ item.item }}</div></td>
               <td><div class="transform-media">{{ item.quantity }}</div></td>
             {% endfor %}
+            <td><div class="transform-media">{{ order.status }}</div></td>
           </tr>
         {% endfor %}
       </tbody>

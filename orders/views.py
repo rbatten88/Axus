@@ -12,6 +12,9 @@ def OrderCreateView(request):
         order_form = OrderForm(request.POST, prefix='order')
         item_form = ItemForm(request.POST, prefix='item')
         if order_form.is_valid() and item_form.is_valid():
+            Order = order_form.save(commit=False)
+            Order.created_by = request.user
+            Order.updated_by = request.user
             Order = order_form.save()
             Item = item_form.save(commit=False)
             Item.order = Order
