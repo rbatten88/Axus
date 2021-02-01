@@ -19,5 +19,5 @@ class Product(models.Model):
 		return reverse('product_list')
 
 	class Meta(object):
-		ordering = ['name']
+		ordering = ['category', 'name']
 		

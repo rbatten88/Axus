@@ -5,12 +5,11 @@ from .models import Order, Item
 class OrderForm(forms.ModelForm):
 	class Meta:
 		model = Order
-		fields = '__all__'
+		exclude = ['number']
 		widgets = {
-			'number': forms.TextInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 			'customer': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 			'transfer_type': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
-			'transfer_date': forms.DateInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'transfer_date': forms.DateInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'autocomplete': 'off'}),
 			'transfer_time': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 		}
 
@@ -18,9 +17,9 @@ class OrderForm(forms.ModelForm):
 class ItemForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		fields = ['name', 'quantity']
+		exclude = ['order']
 		widgets = {
-			'name': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'item': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 			'quantity': forms.NumberInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 		}
 

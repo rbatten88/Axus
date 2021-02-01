@@ -14,7 +14,7 @@ def OrderCreateView(request):
         if order_form.is_valid() and item_form.is_valid():
             Order = order_form.save()
             Item = item_form.save(commit=False)
-            Item.number = Order
+            Item.order = Order
             Item.save()
             return redirect('order_list')
 
@@ -26,10 +26,12 @@ def OrderCreateView(request):
     return render(request, template, {'order_form': order_form, 'item_form': item_form})
 
 
-class OrderListView(ListView):
-    model = Order
-    context_object_name = 'orders'
-    template_name = 'orders/order_list.html'
+def OrderListView(request):
+    template = 'orders/order_list.html'
+
+    return render(request, template, {'orders': Order.objects.all()})
+
+#class OrderListView(ListView):
 
 
 class OrderUpdateView(UpdateView):

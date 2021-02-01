@@ -13,7 +13,6 @@ class Order(models.Model):
 		('8am-10am', '8am-10am'), ('10am-12pm', '10am-12pm'), ('12pm-2pm', '12pm-2pm'), 
 		('2pm-4pm', '2pm-4pm'), ('First Drop', 'First Drop'),
 	)
-	number = models.IntegerField()
 	customer = models.ForeignKey(WholesaleCustomer, on_delete=models.CASCADE)
 	transfer_type = models.CharField(max_length=8, choices=transfer_types, default='')
 	transfer_date = models.DateField(null=True, blank=True)
@@ -21,19 +20,19 @@ class Order(models.Model):
 
 
 	def __str__(self):
-		return f"{self.customer} - {self.transfer_type}"
+		return f"{self.id} - {self.customer}"
 
 	def get_absolute_url(self):
 		return reverse('order_list')
 
 	class Meta(object):
-		ordering = ['number']
+		ordering = ['id']
 
 class Item(models.Model):
-	name = models.ForeignKey(Product, on_delete=models.CASCADE)
+	item = models.ForeignKey(Product, on_delete=models.CASCADE)
 	quantity = models.IntegerField()
-	number = models.ForeignKey(Order, on_delete=models.CASCADE)
+	order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
 
 	def __str__(self):
-		return f"{self.number} - {self.name}"
+		return f"{self.order.id} - {self.item}"
  
