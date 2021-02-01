@@ -5,9 +5,10 @@
   .addOrderLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
   .center { align-items: center; margin: 10px auto; }
   .pageSet { background-color: black; margin-top: 50px; padding-bottom: 24px; }
+  .table { color: gray; }
   .textAlignCenter { margin-bottom: 10px; text-align: center; }
   #id_name, #id_category { min-width: 100%; }
-  #orderForm { color: gray; font-size: 16px; margin-top: 50px; }
+  #form { color: gray; font-size: 20px; margin-top: 50px; }
   #submitBtn { margin: 20px; }
 
   @media only screen and (max-width: 769px) {
@@ -34,21 +35,21 @@
 	<div class="addOrderLabel">
     	<h2>Add Order</h2>
   	</div>
-    <form action="." method="POST" id="orderForm" enctype="multipart/form-data">
+    <form action="." method="POST" id="form" enctype="multipart/form-data">
         {% csrf_token %}
 		<div class="col-xs-12 col-md-6 center">
-			{{ form.as_p }}
+			{{ order_form }}
+			{{ item_form }}
 		</div>
 		<div class="textAlignCenter" id="submitBtn">
           	<input class="btn btn-primary" type="submit" value="Submit" id="submitBtn">
         </div>
     </form>
 </div>
-
 <script type="text/javascript">
-	
+
 	$(document).ready(function(){
-    var date_input=$('input[name="entered_on"]'); //our date input has the name "date"
+    var date_input=$('input[name="order-transfer_date"]'); //our date input has the name "date"
     var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
     var options={
       format: 'm/d/yyyy',

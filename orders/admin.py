@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order, Transaction
+from .models import Order, Item
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -7,11 +7,11 @@ class OrderAdmin(admin.ModelAdmin):
 	search_fields = ['number', 'customer']
 
 
-class TransactionAdmin(admin.ModelAdmin):
+class ItemAdmin(admin.ModelAdmin):
 	#order = Order.odjects.get(pk=)
-	list_display = ['name', 'number']
-	search_fields = ['name', 'number']
+	list_display = ['name']
+	search_fields = ['name']
 
 # Register your models here.
 admin.site.register(Order, OrderAdmin)
-admin.site.register(Transaction, TransactionAdmin)
+admin.site.register(Item, ItemAdmin)

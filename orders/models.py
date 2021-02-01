@@ -17,25 +17,11 @@ class Order(models.Model):
 	customer = models.ForeignKey(WholesaleCustomer, on_delete=models.CASCADE)
 	transfer_type = models.CharField(max_length=8, choices=transfer_types, default='')
 	transfer_date = models.DateField(null=True, blank=True)
-	#delivery_address = models.ForeignKey(DeliveryAddresses, on_delete=models.CASCADE)
 	transfer_time = models.CharField(max_length=20, choices=transfer_times, default='')
-	#delivery_assignment = models.ForeignKey(Logistics, on_delete=models.CASCADE)
-	status_order = models.BooleanField(default=True)
-	status_confirmed = models.BooleanField(default=False)
-	status_inventory_assignment= models.BooleanField(default=False)
-	status_invoice_made = models.BooleanField(default=False)
-	status_out_for_delivery = models.BooleanField(default=False)
-	status_delivered = models.BooleanField(default=False)
-	status_invoice_paid= models.BooleanField(default=False)
-	status_completed = models.BooleanField(default=False)
-	entered_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+', default='')
-	entered_on = models.DateField()
-	last_modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	last_modified_on = models.DateField()
 
 
 	def __str__(self):
-		return f"{self.number} - {self.customer} - {self.tranfer_type}"
+		return f"{self.customer} - {self.transfer_type}"
 
 	def get_absolute_url(self):
 		return reverse('order_list')
@@ -43,10 +29,10 @@ class Order(models.Model):
 	class Meta(object):
 		ordering = ['number']
 
-class Transaction(models.Model):
+class Item(models.Model):
 	name = models.ForeignKey(Product, on_delete=models.CASCADE)
-	number = models.ForeignKey(Order, on_delete=models.CASCADE)
 	quantity = models.IntegerField()
+	number = models.ForeignKey(Order, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return f"{self.number} - {self.name}"
