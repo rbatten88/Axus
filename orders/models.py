@@ -26,9 +26,9 @@ class Order(models.Model):
 	#delivery_assignment = models.ForeignKey(Logistics, on_delete=models.CASCADE)
 	status = models.CharField(max_length=20, choices=statuses, default='Order')
 	created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+', default='')
-	created_on = models.DateField(auto_now_add=True)
+	created_on = models.DateTimeField(auto_now_add=True)
 	updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-	updated_on = models.DateField(auto_now=True)
+	updated_on = models.DateTimeField(auto_now=True)
 
 
 	def __str__(self):
