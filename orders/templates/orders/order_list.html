@@ -66,15 +66,32 @@
       </thead>
       <tbody>
         {% for order in orders %}
-          <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
-            <td><div class="transform-media">{{ order.customer }}</div></td>
-            <td><div class="transform-media">{{ order.transfer_type }}</div></td>
             {% for item in order.items.all %}
-              <td><div class="transform-media">{{ item.item }}</div></td>
-              <td><div class="transform-media">{{ item.quantity }}</div></td>
+                {% if order.items.count > 1 %}
+                    <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                    {% if forloop.first %}
+                        <td rowspan="2"><div class="transform-media">{{ order.customer }}</div></td>
+                        <td rowspan="2"><div class="transform-media">{{ order.transfer_type }}</div></td>
+                        <td><div class="transform-media">{{ item.item }}</div></td>
+                        <td><div class="transform-media">{{ item.quantity }}</div></td>
+                        <td rowspan="2"><div class="transform-media">{{ order.status }}</div></td>
+                    {% else %}
+                        <td><div class="transform-media"></div></td>
+                        <td><div class="transform-media"></div></td>
+                        <td><div class="transform-media">{{ item.item }}</div></td>
+                        <td><div class="transform-media">{{ item.quantity }}</div></td>
+                        <td><div class="transform-media"></div></td>
+                    {% endif %}
+                {% else %}
+                    <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                    <td><div class="transform-media">{{ order.customer }}</div></td>
+                    <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                    <td><div class="transform-media">{{ item.item }}</div></td>
+                    <td><div class="transform-media">{{ item.quantity }}</div></td>
+                    <td><div class="transform-media">{{ order.status }}</div></td>
+                {% endif %}
+                </tr>
             {% endfor %}
-            <td><div class="transform-media">{{ order.status }}</div></td>
-          </tr>
         {% endfor %}
       </tbody>
     </table>

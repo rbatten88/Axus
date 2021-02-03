@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import modelformset_factory
 from .models import Order, Item
 
 # Create your forms here.
@@ -7,7 +8,7 @@ class OrderForm(forms.ModelForm):
 		model = Order
 		exclude = ['created_by', 'created_on', 'updated_by', 'updated_on']
 		widgets = {
-			'customer': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'customer': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'autofocus': 'true'}),
 			'transfer_type': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 			'transfer_date': forms.DateInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'autocomplete': 'off'}),
 			'transfer_time': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
@@ -23,3 +24,6 @@ class ItemForm(forms.ModelForm):
 			'item': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 			'quantity': forms.NumberInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 		}
+
+
+ItemFormSet = modelformset_factory(Item, form=ItemForm, extra=2)

@@ -44,7 +44,7 @@ class Item(models.Model):
 	item = models.ForeignKey(Product, on_delete=models.CASCADE)
 	quantity = models.IntegerField()
 	order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
-
+	'''
 	def __str__(self):
-		return f"{self.order.id} - {self.item}"
+		return f"{self.order.id} - {self.item}"'''
  

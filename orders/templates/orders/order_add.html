@@ -40,13 +40,6 @@
 	    <form action="." method="POST" id="orderForm" enctype="multipart/form-data">
 	        {% csrf_token %}
 			<div class="row">
-		        <div class="col-xs-12 col-md-2">
-	          		{{ order_form.transfer_date.errors }}
-	          		<label for="{{ order_form.transfer_date.id_for_label }}">Order Date</label>
-					<div>
-						{{ order_form.transfer_date }}
-					</div>
-				</div>
 				<div class="col-xs-12 col-md-4">
 	          		{{ order_form.customer.errors }}
 	          		<label for="{{ order_form.customer.id_for_label }}">Customer Name</label>
@@ -59,6 +52,13 @@
 	          		<label for="{{ order_form.transfer_type.id_for_label }}">Order Type</label>
 					<div>
 						{{ order_form.transfer_type }}
+					</div>
+				</div>
+		        <div class="col-xs-12 col-md-2">
+	          		{{ order_form.transfer_date.errors }}
+	          		<label for="{{ order_form.transfer_date.id_for_label }}">Order Date</label>
+					<div>
+						{{ order_form.transfer_date }}
 					</div>
 				</div>
 		        <div class="col-xs-12 col-md-2">
@@ -77,20 +77,23 @@
 				</div>
 			</div>
 			<div class="row" style="border: 2px solid gray; border-radius: .25rem; margin-top: 30px; padding: 20px; max-width: 50%;">
-		        <div class="col-xs-12 col-md-8">
-	          		{{ item_form.item.errors }}
-	          		<label for="{{ item_form.item.id_for_label }}">Order Date</label>
-					<div>
-						{{ item_form.item }}
+			    {{ item_form.management_form }}
+			    {% for form in item_form %}
+			        <div class="col-xs-12 col-md-8">
+		          		{{ form.item.errors }}
+		          		<label for="{{ form.item.id_for_label }}">Item</label>
+						<div>
+							{{ form.item }}
+						</div>
 					</div>
-				</div>
-		        <div class="col-xs-12 col-md-4">
-	          		{{ item_form.quantity.errors }}
-	          		<label for="{{ item_form.quantity.id_for_label }}">Quantity</label>
-					<div>
-						{{ item_form.quantity }}
+			        <div class="col-xs-12 col-md-4">
+		          		{{ form.quantity.errors }}
+		          		<label for="{{ form.quantity.id_for_label }}">Quantity</label>
+						<div>
+							{{ form.quantity }}
+						</div>
 					</div>
-				</div>
+			    {% endfor %}
 			</div>
 			<div class="textAlignCenter" id="submitBtn">
 	          	<input class="btn btn-primary" type="submit" value="Submit" id="submitBtn">
@@ -101,7 +104,7 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-    var date_input=$('input[name="order-transfer_date"]');
+    var date_input=$('input[name="transfer_date"]');
     var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
     var options={
       format: 'm/d/yyyy',
