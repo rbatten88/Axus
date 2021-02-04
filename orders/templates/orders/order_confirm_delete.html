@@ -1,3 +1,14 @@
 {% extends 'base/_base.html' %}
-
-<h1>Order Delete</h1>
+{% block content %}
+<style type="text/css">
+	.pageSet { background-color: black; margin-top: 250px; padding-bottom: 24px; text-align: center; }
+	p { color: gray; font-size: 24px; }
+</style>
+<div class="pageSet">
+	<form method="post">
+		{% csrf_token %} 
+	    <p>Are you sure you want to delete order - "{{ object }}"?</p> 
+	    <input class="btn btn-danger" type="submit" value="Confirm"> 
+	</form>
+</div>
+{% endblock %}

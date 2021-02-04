@@ -13,7 +13,7 @@
   #submitBtn { margin: 20px; }
 
   @media only screen and (max-width: 769px) {
-    .addOrderLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+  	.addOrderLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
     .pageSet { float:none; margin-left: 0; width: 100%; }
   }
 
@@ -76,17 +76,17 @@
 					</div>
 				</div>
 			</div>
-			<div class="row" style="border: 2px solid gray; border-radius: .25rem; margin-top: 30px; padding: 20px; max-width: 50%;">
+			<div class="row" style="border: 2px solid gray; border-radius: .25rem; margin-top: 30px; padding: 20px; max-width: 80%;">
 			    {{ item_form.management_form }}
 			    {% for form in item_form %}
-			        <div class="col-xs-12 col-md-8">
+			        <div class="col-xs-12 col-md-6">
 		          		{{ form.item.errors }}
 		          		<label for="{{ form.item.id_for_label }}">Item</label>
 						<div>
 							{{ form.item }}
 						</div>
 					</div>
-			        <div class="col-xs-12 col-md-4">
+			        <div class="col-xs-12 col-md-2">
 		          		{{ form.quantity.errors }}
 		          		<label for="{{ form.quantity.id_for_label }}">Quantity</label>
 						<div>
@@ -104,15 +104,15 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-    var date_input=$('input[name="transfer_date"]');
-    var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-    var options={
-      format: 'm/d/yyyy',
-      container: container,
-      todayHighlight: true,
-      autoclose: true,
-    };
-    date_input.datepicker(options);
+	    var date_input=$('input[name="transfer_date"]');
+	    var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+	    var options={
+	      format: 'm/d/yyyy',
+	      container: container,
+	      todayHighlight: true,
+	      autoclose: true,
+	    };
+	    date_input.datepicker(options);
   });
 
 </script>

@@ -1,3 +1,140 @@
 {% extends 'base/_base.html' %}
+{% block content %}
+<style type="text/css">
 
-<h1>Order Detail</h1>
+  .addOrderLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+  .center { align-items: center; margin: 10px auto; }
+  .overflowWindow { overflow-y: auto; height: calc(100vh - 126px); }
+  .pageSet { background-color: black; margin-top: 50px; padding-bottom: 24px; }
+  .row { margin: auto; width: 100%; }
+  .textAlignCenter { margin-bottom: 10px; text-align: center; }
+  #id_name, #id_category { min-width: 100%; }
+  #orderForm { color: gray; font-size: 16px; }
+  #editBtn { display: inline; }
+  #deleteBtn, #editBtn, #updateBtn { margin: 20px 10px; min-width: 77px; }
+  #updateBtn { display: none; }
+  #submitBtnFieldSet { margin: 20px; }
+
+  @media only screen and (max-width: 769px) {
+  	.addOrderLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+    .pageSet { float:none; margin-left: 0; width: 100%; }
+  }
+
+@media only screen and (max-width: 1025px) {
+  }
+
+  @media only screen and (max-width: 480px) {
+    .addOrderLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
+    .pageSet { float:none; height: 100%; margin-left: 0; width: 100%; }
+  }
+
+  @media only screen and (max-height: 600px) and (orientation: landscape) {
+    .addOrderLabel { color: #3385ff; font-size: 30px; margin: 0 20px;}
+    .pageSet { background-color: black; float:none; margin-left: 0; min-height: 130vh; overflow: auto; width: 100%; }
+    }
+
+</style>
+
+<div class="pageSet">
+	<div class="addOrderLabel">
+    	<h2>Order Detail</h2>
+  	</div>
+  	<div class="overflowWindow">
+	    <form method="POST" id="orderForm" enctype="multipart/form-data">
+	        {% csrf_token %}
+			<div class="row">
+				<div class="col-xs-12 col-md-4">
+	          		{{ order_form.customer.errors }}
+	          		<label for="{{ order_form.customer.id_for_label }}">Customer Name</label>
+					<div>
+						{{ order_form.customer }}
+					</div>
+	        	</div>
+		        <div class="col-xs-12 col-md-2">
+	          		{{ order_form.transfer_type.errors }}
+	          		<label for="{{ order_form.transfer_type.id_for_label }}">Order Type</label>
+					<div>
+						{{ order_form.transfer_type }}
+					</div>
+				</div>
+		        <div class="col-xs-12 col-md-2">
+	          		{{ order_form.transfer_date.errors }}
+	          		<label for="{{ order_form.transfer_date.id_for_label }}">Order Date</label>
+					<div>
+						{{ order_form.transfer_date }}
+					</div>
+				</div>
+		        <div class="col-xs-12 col-md-2">
+	          		{{ order_form.transfer_time.errors }}
+	          		<label for="{{ order_form.transfer_time.id_for_label }}">Delivery/Pickup Time</label>
+					<div>
+						{{ order_form.transfer_time }}
+					</div>
+				</div>
+		        <div class="col-xs-12 col-md-2">
+	          		{{ order_form.status.errors }}
+	          		<label for="{{ order_form.status.id_for_label }}">Order Status</label>
+					<div>
+						{{ order_form.status }}
+					</div>
+				</div>
+			</div>
+			<div class="row" style="border: 2px solid gray; border-radius: .25rem; margin-top: 30px; padding: 20px; max-width: 50%;">
+			    {{ item_form.management_form }}
+			    {% for form in item_form %}
+			        <div class="col-xs-12 col-md-8">
+		          		{{ form.item.errors }}
+		          		<label for="{{ form.item.id_for_label }}">Item</label>
+						<div>
+							{{ form.item }}
+						</div>
+					</div>
+			        <div class="col-xs-12 col-md-4">
+		          		{{ form.quantity.errors }}
+		          		<label for="{{ form.quantity.id_for_label }}">Quantity</label>
+						<div>
+							{{ form.quantity }}
+						</div>
+					</div>
+			    {% endfor %}
+			</div>
+			<div class="textAlignCenter" id="submitBtn">
+		        <input class="btn btn-primary" type="button" value="Edit" id="editBtn">
+		        <input class="btn btn-primary" type="submit" value="Update" id="updateBtn">
+		        <a class="btn btn-danger" href="{% url 'order_delete' order.id %}" id="deleteBtn" role="button">Delete</a>
+	        </div>
+	    </form>
+	</div>
+</div>
+<script type="text/javascript">
+
+	$('#editBtn').on('click', function() {
+		$(this).hide();
+		$('#updateBtn').show();
+		$('#id_customer').attr('disabled', false);
+		$('#id_transfer_type').attr('disabled', false);
+		$('#id_transfer_date').attr('disabled', false);
+		$('#id_transfer_time').attr('disabled', false);
+		$('#id_status').attr('disabled', false);
+		$('.item').each(function(i) {
+			$(this).attr('disabled', false);
+		});
+		$('.quantity').each(function(i) {
+			$(this).attr('readonly', false);
+		});
+	});
+
+	$(document).ready(function(){
+	    var date_input=$('input[name="transfer_date"]');
+	    var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+	    var options={
+	      format: 'm/d/yyyy',
+	      container: container,
+	      todayHighlight: true,
+	      autoclose: true,
+	    };
+	    date_input.datepicker(options);
+  });
+
+</script>
+{% endblock %}

@@ -80,7 +80,7 @@
       <a class="fa fa-align-justify" id="sideNavBtn"></a>
       <a class="" id="dynamicUsername"><b>{{ user.first_name }} {{ user.last_name }}</b></a>
       <div class="nav justify-content-end">
-        <a class="fa fa-plus-circle quick_link" id="orderQuickLink" href="#newOrder"></a>
+        <a class="fa fa-plus-circle quick_link" id="orderQuickLink" href="{% url 'order_add' %}"></a>
         <div class="dropdown">
           <a class="fa fa-search" data-toggle="dropdown" id="searchQuickLink"></a>
           <div class="dropdown-menu dropdown-menu-right" id="searchDropdown">

@@ -27,3 +27,29 @@ class ItemForm(forms.ModelForm):
 
 
 ItemFormSet = modelformset_factory(Item, form=ItemForm, extra=2)
+
+
+class OrderEditForm(forms.ModelForm):
+	class Meta:
+		model = Order
+		exclude = ['created_by', 'created_on', 'updated_by', 'updated_on']
+		widgets = {
+			'customer': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'autofocus': 'true', 'disabled': ''}),
+			'transfer_type': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'disabled': ''}),
+			'transfer_date': forms.DateInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'autocomplete': 'off', 'disabled': ''}),
+			'transfer_time': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'disabled': ''}),
+			'status': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'disabled': ''}),
+		}
+
+
+class ItemEditForm(forms.ModelForm):
+	class Meta:
+		model = Item
+		exclude = ['order']
+		widgets = {
+			'item': forms.Select(attrs={'class': 'form-control item', 'style': 'margin-bottom: 10px;', 'disabled': ''}),
+			'quantity': forms.NumberInput(attrs={'class': 'form-control quantity', 'style': 'margin-bottom: 10px;', 'readonly': 'true'}),
+		}
+
+
+ItemEditFormSet = modelformset_factory(Item, form=ItemEditForm, extra=1)

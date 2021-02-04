@@ -90,32 +90,6 @@ def customer_upload(request):
 						)'''
 	return redirect(reverse('customer_list'))
 
-'''
-def WholesaleCustomerCreateView(request):
-	if request.method == 'POST':
-		customer_form = WholesaleCustomerForm(request.POST)
-		email_form2 = WCAdditionalEmailForm(request.POST, prefix='email2')
-		email_form3 = WCAdditionalEmailForm(request.POST, prefix='email3')
-		if customer_form.is_valid() and email_form2.is_valid() and email_form3.is_valid():
-			WholesaleCustomer = customer_form.save()
-			WCAdditionalEmail = email_form2.save(commit=False)
-			WCAdditionalEmail.name = WholesaleCustomer
-			WCAdditionalEmail.save()
-			WCAdditionalEmail = email_form3.save(commit=False)
-			WCAdditionalEmail.name = WholesaleCustomer
-			WCAdditionalEmail.save()
-			return redirect('customer_list')
-	else:
-		customer_form = WholesaleCustomerForm()
-		email_form2 = WCAdditionalEmailForm(prefix='email2')
-		email_form3 = WCAdditionalEmailForm(prefix='email3')
-	context = {
-		'customer_form': customer_form,
-		'email_form2': email_form2,
-		'email_form3': email_form3,
-	}
-	return render(request, 'customers/customer_create.html', context)'''
-
 
 class WholesaleCustomerCreateView(CreateView):
     model = WholesaleCustomer
