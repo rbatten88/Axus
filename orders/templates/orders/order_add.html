@@ -76,25 +76,53 @@
 					</div>
 				</div>
 			</div>
-			<div class="row" style="border: 2px solid gray; border-radius: .25rem; margin-top: 30px; padding: 20px; max-width: 80%;">
+			<div class="row" id="item_formset" style="border: 2px solid gray; border-radius: .25rem; margin-top: 30px; padding: 20px; max-width: 50%;">
 			    {{ item_form.management_form }}
 			    {% for form in item_form %}
-			        <div class="col-xs-12 col-md-6">
+			        <div class="col-xs-12 col-md-8">
 		          		{{ form.item.errors }}
 		          		<label for="{{ form.item.id_for_label }}">Item</label>
 						<div>
 							{{ form.item }}
 						</div>
 					</div>
-			        <div class="col-xs-12 col-md-2">
+			        <div class="col-xs-12 col-md-3">
 		          		{{ form.quantity.errors }}
 		          		<label for="{{ form.quantity.id_for_label }}">Quantity</label>
 						<div>
 							{{ form.quantity }}
 						</div>
 					</div>
+			        <div class="col-xs-12 col-md-1">
+		          		<button class="btn btn-sm btn-danger" style="margin-top: 36px;">Delete</button>
+					</div>
 			    {% endfor %}
 			</div>
+
+
+
+			<div class="row" id="empty_item_formset" style="display: none;">
+		        <div class="col-xs-12 col-md-8">
+	          		{{ form.item.errors }}
+	          		<label for="{{ form.item.id_for_label }}">Item</label>
+					<div>
+						{{ item_form.form.item }}
+					</div>
+				</div>
+		        <div class="col-xs-12 col-md-3">
+	          		{{ form.quantity.errors }}
+	          		<label for="{{ form.quantity.id_for_label }}">Quantity</label>
+					<div>
+						{{ item_form.form.quantity }}
+					</div>
+				</div>
+		        <div class="col-xs-12 col-md-1">
+	          		<button class="btn btn-sm btn-danger" style="margin-top: 36px;">Delete</button>
+				</div>
+			</div>
+
+
+
 			<div class="textAlignCenter" id="submitBtn">
 	          	<input class="btn btn-primary" type="submit" value="Submit" id="submitBtn">
 	        </div>
@@ -102,6 +130,19 @@
 	</div>
 </div>
 <script type="text/javascript">
+
+	$('#id_form-0-item').on('change', function(){
+		var total = $('#id_form-TOTAL_FORMS').val();
+		$('#item_formset').append($('#empty_item_formset').html().replace(/__prefix__/g, total));
+		var item_name = 'form-' + total + '-item';
+		var item_id = 'id_form-' + total + '-item';
+		var quantity_name = 'form-' + total + '-quantity';
+		var quantity_id = 'id_form-' + total + '-quantity';
+		$('#id_item').attr({name: item_name, id: item_id});
+		$('#id_quantity').attr({name: quantity_name, id: quantity_id});
+		$('.form-control')
+		$('#id_form-TOTAL_FORMS').val(parseInt(total) + 1);
+	});
 
 	$(document).ready(function(){
 	    var date_input=$('input[name="transfer_date"]');

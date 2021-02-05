@@ -26,7 +26,7 @@ class ItemForm(forms.ModelForm):
 		}
 
 
-ItemFormSet = modelformset_factory(Item, form=ItemForm, extra=2)
+ItemFormSet = modelformset_factory(Item, form=ItemForm, extra=1, can_delete=True)
 
 
 class OrderEditForm(forms.ModelForm):
