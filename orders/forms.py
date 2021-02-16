@@ -52,4 +52,4 @@ class ItemEditForm(forms.ModelForm):
 		}
 
 
-ItemEditFormSet = modelformset_factory(Item, form=ItemEditForm, extra=1)
+ItemEditFormSet = modelformset_factory(Item, form=ItemEditForm, extra=1, can_delete=True)

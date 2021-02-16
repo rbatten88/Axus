@@ -3,8 +3,8 @@ from .models import Product
 
 
 class ProductAdmin(admin.ModelAdmin):
-	list_display = ['name', 'category']
-	search_fields = ['company_name']
+	list_display = ['category', 'name']
+	search_fields = ['name']
 		
 
 # Register your models here.

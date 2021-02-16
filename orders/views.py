@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 from .forms import OrderForm, ItemFormSet, OrderEditForm, ItemEditFormSet
@@ -9,6 +9,31 @@ from .models import Order, Item
 
 # Create your views here.
 
+class OrderAddView(TemplateView):
+    template_name = 'orders/order_add.html'
+
+    def get(self, *args, **kwargs):
+        order_form = OrderForm()
+        item_form = ItemFormSet(queryset=Item.objects.none())
+        return self.render_to_response({'order_form': order_form, 'item_form': item_form})
+
+    def post(self, *args, **kwargs):
+        order_form = OrderForm(data=self.request.POST)
+        item_form = ItemFormSet(data=self.request.POST)
+        if order_form.is_valid() and item_form.is_valid():
+            order = order_form.save(commit=False)
+            order.created_by = request.user
+            order.updated_by = request.user
+            order.save()
+            instances = item_form.save(commit=False)
+            for instance in instances:
+                instance.order = order
+                instance.save()
+            return redirect(reverse_lazy('order_list'))
+
+        return self.render_to_response({'order_form': order_form, 'item_form': item_form})
+
+'''
 def OrderCreateView(request):
     template = 'orders/order_add.html'
     if request.method == 'POST':
@@ -30,7 +55,7 @@ def OrderCreateView(request):
         item_form = ItemFormSet(queryset=Item.objects.none())
 
     return render(request, template, {'order_form': order_form, 'item_form': item_form})
-
+'''
 
 def OrderListView(request):
     template = 'orders/order_list.html'
