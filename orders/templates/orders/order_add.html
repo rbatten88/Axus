@@ -78,11 +78,11 @@
 					</div>
 				</div>
 			</div>
-		    <div class="row form-container" style="border: 2px solid gray; border-radius: .25rem; display: inline-flex; margin: 30px auto; padding: 20px; max-width: 60%;">
+		    <div class="row form-container" style="border: 2px solid gray; border-radius: .25rem; margin: 30px auto; padding: 20px; max-width: 60%;">
 		    	{{ item_form.management_form }}
 		    	{% for form in item_form %}
-		    	<div class="item-form">
-			        <div class="col-xs-12 col-md-8">
+		    	<div class="item-form" name="removeForm">
+			        <div class="col-xs-12 col-md-7">
 		          		{{ form.item.errors }}
 		          		<label for="{{ form.item.id_for_label }}">Item</label>
 						<div>
@@ -96,12 +96,12 @@
 							{{ form.quantity }}
 						</div>
 					</div>
-			        <div class="col-xs-12 col-md-1">
-		          		<button class="btn btn-sm btn-danger" style="margin-top: 36px;">Remove</button>
+			        <div class="col-xs-12 col-md-2" name="removeField">
+		          		<button class="btn btn-sm btn-danger" name="removeBtn" type="button" style="margin: 36px auto 0;" onclick=formRemove(event);>Remove</button>
 					</div>
 		    	</div>
 		    	{% endfor %}
-		    	<button id="endBtn" style="display: none;">END</button>
+		    	<div id="end"></div>
 			</div>
 			<div class="textAlignCenter" id="submitBtn">
 	          	<input class="btn btn-primary" type="submit" value="Submit" id="submitBtn">
@@ -113,19 +113,25 @@
 
 	let itemForm = document.querySelectorAll('.item-form');
 	let container = document.querySelector('.form-container');
-	let end = document.querySelector('#endBtn');
+	let end = document.querySelector('#end');
 	let totalForms = document.querySelector('#id_form-TOTAL_FORMS');
 	let formNum = itemForm.length-1;
 
-	$('#id_form-0-item').on('change', function() {
+	function formReplicate() {
 		let newForm = itemForm[0].cloneNode(true);
         let formRegex = RegExp(`form-(\\d){1}-`,'g');
 		formNum++;
 		newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`);
 		container.insertBefore(newForm, end);
 		totalForms.setAttribute('value', `${formNum+1}`);
-		alert(formNum);
-	});
+	}
+
+	function formRemove(event) {
+		var item_form = document.querySelectorAll('.item-form');
+		$(event.target).parent().parent().remove();
+		tf = $('#id_form-TOTAL_FORMS').val();
+		$('#id_form-TOTAL_FORMS').val(tf-1);
+	}
 
 
 	$(document).ready(function(){
@@ -138,7 +144,7 @@
 	      autoclose: true,
 	    };
 	    date_input.datepicker(options);
-  });
+  	});
 
 </script>
 {% endblock %}

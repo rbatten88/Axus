@@ -4,6 +4,7 @@
 
   .addOrderLabel { color: #3385ff; font-size: 30px; margin: 0 10px;}
   .center { align-items: center; margin: 10px auto; }
+  .item-form { display: inherit; margin: auto; width: 100%; }
   .overflowWindow { overflow-y: auto; height: calc(100vh - 126px); }
   .pageSet { background-color: black; margin-top: 50px; padding-bottom: 24px; }
   .row { margin: auto; width: 100%; }
@@ -79,24 +80,30 @@
 					</div>
 				</div>
 			</div>
-			<div class="row" style="border: 2px solid gray; border-radius: .25rem; margin-top: 30px; padding: 20px; max-width: 50%;">
-			    {{ item_form.management_form }}
-			    {% for form in item_form %}
-			        <div class="col-xs-12 col-md-8">
-		          		{{ form.item.errors }}
-		          		<label for="{{ form.item.id_for_label }}">Item</label>
-						<div>
-							{{ form.item }}
+			<div class="row form-container" style="border: 2px solid gray; border-radius: .25rem; margin: 30px auto; padding: 20px; max-width: 60%;">
+		    	{{ item_form.management_form }}
+		    	{% for form in item_form %}
+			    	<div class="item-form" name="removeForm">
+				        <div class="col-xs-12 col-md-7">
+			          		{{ form.item.errors }}
+			          		<label for="{{ form.item.id_for_label }}">Item</label>
+							<div>
+								{{ form.item }}
+							</div>
 						</div>
-					</div>
-			        <div class="col-xs-12 col-md-4">
-		          		{{ form.quantity.errors }}
-		          		<label for="{{ form.quantity.id_for_label }}">Quantity</label>
-						<div>
-							{{ form.quantity }}
+				        <div class="col-xs-12 col-md-3">
+			          		{{ form.quantity.errors }}
+			          		<label for="{{ form.quantity.id_for_label }}">Quantity</label>
+							<div>
+								{{ form.quantity }}
+							</div>
 						</div>
-					</div>
-			    {% endfor %}
+				        <div class="col-xs-12 col-md-2" name="removeField">
+			          		<button class="btn btn-sm btn-danger" name="removeBtn" type="button" style="margin: 36px auto 0;" onclick=formRemove(event);>Remove</button>
+						</div>
+			    	</div>
+		    	{% endfor %}
+		    	<div id="end"></div>
 			</div>
 			<div class="textAlignCenter" id="submitBtn">
 		        <input class="btn btn-primary" type="button" value="Edit" id="editBtn">
@@ -109,7 +116,6 @@
 <script type="text/javascript">
 
 	$('#editBtn').on('click', function() {
-		$(this).hide();
 		$('#updateBtn').show();
 		$('#id_customer').attr('disabled', false);
 		$('#id_transfer_type').attr('disabled', false);
@@ -122,7 +128,34 @@
 		$('.quantity').each(function(i) {
 			$(this).attr('readonly', false);
 		});
+		formReplicate();
 	});
+
+
+	let itemForm = document.querySelectorAll('.item-form');
+	let container = document.querySelector('.form-container');
+	let end = document.querySelector('#end');
+	let totalForms = document.querySelector('#id_form-TOTAL_FORMS');
+	let formNum = itemForm.length-1;
+
+	function formReplicate() {
+		let newForm = itemForm[0].cloneNode(true);
+        let formRegex = RegExp(`form-(\\d){1}-`,'g');
+		formNum++;
+		newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`);
+		container.insertBefore(newForm, end);
+		$('#id_form-' + formNum + '-item').val('');
+		$('#id_form-' + formNum + '-quantity').val('');
+		totalForms.setAttribute('value', `${formNum+1}`);
+	}
+
+	function formRemove(event) {
+		var item_form = document.querySelectorAll('.item-form');
+		$(event.target).parent().parent().remove();
+		tf = $('#id_form-TOTAL_FORMS').val();
+		$('#id_form-TOTAL_FORMS').val(tf-1);
+	}
+
 
 	$(document).ready(function(){
 	    var date_input=$('input[name="transfer_date"]');
@@ -134,7 +167,7 @@
 	      autoclose: true,
 	    };
 	    date_input.datepicker(options);
-  });
+  	});
 
 </script>
 {% endblock %}

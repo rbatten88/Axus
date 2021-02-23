@@ -21,7 +21,7 @@ class ItemForm(forms.ModelForm):
 		model = Item
 		exclude = ['order']
 		widgets = {
-			'item': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'item': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'onchange' : 'formReplicate();'}),
 			'quantity': forms.NumberInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 		}
 
@@ -47,9 +47,9 @@ class ItemEditForm(forms.ModelForm):
 		model = Item
 		exclude = ['order']
 		widgets = {
-			'item': forms.Select(attrs={'class': 'form-control item', 'style': 'margin-bottom: 10px;', 'disabled': ''}),
+			'item': forms.Select(attrs={'class': 'form-control item', 'style': 'margin-bottom: 10px;', 'onchange' : 'formReplicate():', 'disabled': ''}),
 			'quantity': forms.NumberInput(attrs={'class': 'form-control quantity', 'style': 'margin-bottom: 10px;', 'readonly': 'true'}),
 		}
 
 
-ItemEditFormSet = modelformset_factory(Item, form=ItemEditForm, extra=1, can_delete=True)
+ItemEditFormSet = modelformset_factory(Item, form=ItemEditForm, extra=0, can_delete=True)

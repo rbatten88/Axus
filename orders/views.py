@@ -8,7 +8,7 @@ from .models import Order, Item
 
 
 # Create your views here.
-
+'''
 class OrderAddView(TemplateView):
     template_name = 'orders/order_add.html'
 
@@ -22,8 +22,9 @@ class OrderAddView(TemplateView):
         item_form = ItemFormSet(data=self.request.POST)
         if order_form.is_valid() and item_form.is_valid():
             order = order_form.save(commit=False)
-            order.created_by = request.user
-            order.updated_by = request.user
+            user = request.user
+            order.created_by = user.username
+            order.updated_by = user.username
             order.save()
             instances = item_form.save(commit=False)
             for instance in instances:
@@ -32,8 +33,8 @@ class OrderAddView(TemplateView):
             return redirect(reverse_lazy('order_list'))
 
         return self.render_to_response({'order_form': order_form, 'item_form': item_form})
-
 '''
+
 def OrderCreateView(request):
     template = 'orders/order_add.html'
     if request.method == 'POST':
@@ -55,42 +56,14 @@ def OrderCreateView(request):
         item_form = ItemFormSet(queryset=Item.objects.none())
 
     return render(request, template, {'order_form': order_form, 'item_form': item_form})
-'''
+
 
 def OrderListView(request):
     template = 'orders/order_list.html'
     orders = Order.objects.all()
-    '''
-    for order in orders:
-        if order.items.count() > 1:
-                order.transfer_type = 'TBD'
-                '''
-    return render(request, template, {'orders': orders})
+    items = Item.objects.all()
 
-'''
-class OrderCreateView(CreateView):
-    model = Order
-    fields = ['customer', 'transfer_type', 'transfer_date', 'transfer_time', 'status']
-    success_url = reverse_lazy('order_list')
-
-    def get_context_data(self, **kwargs):
-        data = super(OrderCreateView, self).get_context_data(**kwargs)
-        if self.request.POST:
-            data['items'] = ItemFormSet(self.request.POST)
-        else:
-            data['items'] = ItemFormSet()
-        return data
-
-    def form_valid(self, form):
-        context = self.get_context_data()
-        items = context['items']
-        with transaction.atomic():
-            self.object = form.save()
-
-            if items.is_valid():
-                items.instance = self.object
-                items.save()
-        return super(OrderCreateView, self).form_valid(form)'''
+    return render(request, template, {'orders': orders, 'items': items})
 
 
 def OrderUpdateView(request, pk):
@@ -101,6 +74,7 @@ def OrderUpdateView(request, pk):
         order_form = OrderEditForm(request.POST)
         item_form = ItemEditFormSet(request.POST)
         if order_form.is_valid() and item_form.is_valid():
+            return HttpResponse('HERE')
             ordr = order_form.save(commit=False)
             ordr.created_by = request.user
             ordr.updated_by = request.user
