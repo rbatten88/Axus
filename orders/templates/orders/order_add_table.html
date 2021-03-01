@@ -78,35 +78,61 @@
 					</div>
 				</div>
 			</div>
+
+
+
+			<table class="table" id="item_table" style="color: gray; border: 2px solid gray; border-radius: .25rem; margin: 30px auto; padding: 20px; max-width: 50%;">
+				<thead>
+					<th>Item</th>
+					<th>Quantity</th>
+				</thead>
+				<tbody>
+					{{ item_form.management_form }}
+		    		{% for form in item_form %}
+			    		<tr>
+			    			<td>{{ form.item }}</td>
+			    			<td>{{ form.quantity }}</td>
+			    		</tr>
+			    		<tr>
+			    			<td>{{ form.item }}</td>
+			    			<td>{{ form.quantity }}</td>
+			    		</tr>
+		    		{% endfor %}
+				</tbody>
+			</table>
+
+
+
+
+
+
+<!--
+
 		    <div class="row form-container" style="border: 2px solid gray; border-radius: .25rem; margin: 30px auto; padding: 20px; max-width: 60%;">
-		        <div class="col-xs-12 col-md-7">
-	          		<label for="{{ form.item.id_for_label }}">Item</label>
-				</div>
-		        <div class="col-xs-12 col-md-5">
-	          		<label for="{{ form.quantity.id_for_label }}">Quantity</label>
-				</div>
 		    	{{ item_form.management_form }}
 		    	{% for form in item_form %}
-		    		<div class="item-form" name="removeForm">
-				        <div class="col-xs-12 col-md-7">
-							<div>
-			          			{{ form.item.errors }}
-								{{ form.item }}
-							</div>
-				        </div>
-				        <div class="col-xs-12 col-md-3">
-							<div>
-			          			{{ form.quantity.errors }}
-								{{ form.quantity }}
-							</div>
-				        </div>
-				        <div class="col-xs-12 col-md-2" name="removeField">
-			          		<button class="btn btn-sm btn-danger" name="removeBtn" type="button" style="margin: 4px auto;" onclick=formRemove(event);>Remove</button>
+		    	<div class="item-form" name="removeForm">
+			        <div class="col-xs-12 col-md-7">
+		          		{{ form.item.errors }}
+		          		<label for="{{ form.item.id_for_label }}">Item</label>
+						<div>
+							{{ form.item }}
 						</div>
-		    		</div>
+					</div>
+			        <div class="col-xs-12 col-md-3">
+		          		{{ form.quantity.errors }}
+		          		<label for="{{ form.quantity.id_for_label }}">Quantity</label>
+						<div>
+							{{ form.quantity }}
+						</div>
+					</div>
+			        <div class="col-xs-12 col-md-2" name="removeField">
+		          		<button class="btn btn-sm btn-danger" name="removeBtn" type="button" style="margin: 36px auto 0;" onclick=formRemove(event);>Remove</button>
+					</div>
+		    	</div>
 		    	{% endfor %}
 		    	<div id="end"></div>
-			</div>
+			</div>-->
 			<div class="textAlignCenter" id="submitBtn">
 	          	<input class="btn btn-primary" type="submit" value="Submit" id="submitBtn" style="min-height: 48px; min-width: 225px;">
 	        </div>
@@ -114,23 +140,12 @@
 	</div>
 </div>
 <script type="text/javascript"> 
-
+/*
 	let itemForm = document.querySelectorAll('.item-form');
 	let container = document.querySelector('.form-container');
 	let end = document.querySelector('#end');
 	let totalForms = document.querySelector('#id_form-TOTAL_FORMS');
 	let formNum = itemForm.length-1;
-
-	function itemChange(event) {
-		if ($('#id_form-TOTAL_FORMS').val() > 1) {
-			let lastForm = $('#id_form-TOTAL_FORMS').val() - 1;
-			if ($('#id_form-' + lastForm + '-item').val() != '') {
-				formReplicate();
-			}
-		} else {
-			formReplicate();
-		}
-	}
 
 	function formReplicate() {
 		let newForm = itemForm[0].cloneNode(true);
@@ -142,29 +157,12 @@
 	}
 
 	function formRemove(event) {
+		var item_form = document.querySelectorAll('.item-form');
 		$(event.target).parent().parent().remove();
-		tfv = $('#id_form-TOTAL_FORMS').val();
-		$('#id_form-TOTAL_FORMS').val(tfv-1);
-		let formCounter = 0;
-		$('.item').each(function() {
-			let id = $(this).attr('id');
-			if (id.length == 14) {
-				let singleID = id.slice(8,9);
-				if (singleID != formCounter) {
-					$(this).attr('id', `id_form-${formCounter}-item`);
-					$(`#id_form-${singleID}-quantity`).attr('id', `id_form-${formCounter}-quantity`);
-				}
-			} else {
-				if (id.slice(8,10) != formCounter) {
-				let doubleID = id.slice(8,10);
-					$(this).attr('id', `id_form-${formCounter}-item`);
-					$(`#id_form-${doubleID}-quantity`).attr('id', `id_form-${formCounter}-quantity`);
-				}
-			}
-			formCounter++;
-		});
+		tf = $('#id_form-TOTAL_FORMS').val();
+		$('#id_form-TOTAL_FORMS').val(tf-1);
 	}
-
+*/
 
 	$(document).ready(function(){
 	    var date_input=$('input[name="transfer_date"]');

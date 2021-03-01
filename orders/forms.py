@@ -21,7 +21,7 @@ class ItemForm(forms.ModelForm):
 		model = Item
 		exclude = ['order']
 		widgets = {
-			'item': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'onchange' : 'formReplicate();'}),
+			'item': forms.Select(attrs={'class': 'form-control item', 'style': 'margin-bottom: 10px;', 'onchange' : 'itemChange(event);'}),
 			'quantity': forms.NumberInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 		}
 
