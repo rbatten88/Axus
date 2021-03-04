@@ -62,32 +62,7 @@ def customer_upload(request):
 					additional_email2=additional_email2,
 					email3=email3,
 				)
-				'''
-				customer = WholesaleCustomer.objects.latest('id')
-				additional_phone_created = WCAdditionalPhone.objects.update_or_create(
-						name=customer,
-						phone_number=column[1],
-				)
-				if additional_phone == True:
-					additional_phone_created = WCAdditionalPhone.objects.update_or_create(
-						name=customer,
-						phone_number=column[8],
-					)
-				if not column[2] == "":
-					additional_email_created = WCAdditionalEmail.objects.update_or_create(
-						name=customer,
-						email=column[2],
-					)
-					if additional_email == True:
-						additional_email_created = WCAdditionalEmail.objects.update_or_create(
-							name=customer,
-							email=column[9],
-						)
-					if additional_email2 == True:
-						additional_email_created = WCAdditionalEmail.objects.update_or_create(
-							name=customer,
-							email=column[10],
-						)'''
+				
 	return redirect(reverse('customer_list'))
 
 

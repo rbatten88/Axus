@@ -30,7 +30,7 @@ class WholesaleCustomer(models.Model):
 	invoice_static = models.CharField(max_length=100, null=True, blank=True)
 	street = models.CharField(max_length=100, null=True, blank=True)
 	city = models.CharField(max_length=64, null=True, blank=True)
-	state = models.CharField(max_length=2, null=True, blank=True, choices=states, default='')
+	state = models.CharField(max_length=2, null=True, blank=True, choices=states, default='NC')
 	zip_code = models.CharField(max_length=10, null=True, blank=True)
 	notes = models.TextField(max_length=254, null=True, blank=True)
 	notes_popup = models.BooleanField(default=False)

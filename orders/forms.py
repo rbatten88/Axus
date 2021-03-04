@@ -13,6 +13,12 @@ class OrderForm(forms.ModelForm):
 			'transfer_date': forms.DateInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'autocomplete': 'off'}),
 			'transfer_time': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 			'status': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'delivery_street': forms.TextInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'delivery_city': forms.TextInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'delivery_state': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'delivery_zip_code': forms.TextInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'order_notes': forms.TextInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'print_notes': forms.CheckboxInput(attrs={'tabindex': '-1'}),
 		}
 
 
@@ -21,7 +27,7 @@ class ItemForm(forms.ModelForm):
 		model = Item
 		exclude = ['order']
 		widgets = {
-			'item': forms.Select(attrs={'class': 'form-control item', 'style': 'margin-bottom: 10px;', 'onchange' : 'itemChange(event);'}),
+			'item': forms.Select(attrs={'class': 'form-control item', 'style': 'margin-bottom: 10px;', 'onchange' : 'itemChange(this);'}),
 			'quantity': forms.NumberInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
 		}
 
@@ -39,15 +45,21 @@ class OrderEditForm(forms.ModelForm):
 			'transfer_date': forms.DateInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'autocomplete': 'off', 'disabled': ''}),
 			'transfer_time': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'disabled': ''}),
 			'status': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'disabled': ''}),
+			'delivery_street': forms.TextInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'delivery_city': forms.TextInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'delivery_state': forms.Select(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'delivery_zip_code': forms.TextInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
+			'order_notes': forms.TextInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;', 'readonly': 'true'}),
+			'print_notes': forms.CheckboxInput(attrs={'tabindex': '-1', 'disabled': ''}),
 		}
 
 
 class ItemEditForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		exclude = ['order']
+		exclude = []
 		widgets = {
-			'item': forms.Select(attrs={'class': 'form-control item', 'style': 'margin-bottom: 10px;', 'onchange' : 'formReplicate():', 'disabled': ''}),
+			'item': forms.Select(attrs={'class': 'form-control item', 'style': 'margin-bottom: 10px;', 'onchange' : 'itemChange(this);', 'disabled': ''}),
 			'quantity': forms.NumberInput(attrs={'class': 'form-control quantity', 'style': 'margin-bottom: 10px;', 'readonly': 'true'}),
 		}
 

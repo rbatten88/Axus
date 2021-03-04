@@ -11,7 +11,10 @@ class Order(models.Model):
 	transfer_times = (
 		('', ''), ('AM', 'AM'), ('PM', 'PM'), ('Anytime', 'Anytime'), 
 		('8am-10am', '8am-10am'), ('10am-12pm', '10am-12pm'), ('12pm-2pm', '12pm-2pm'), 
-		('2pm-4pm', '2pm-4pm'), ('First Drop', 'First Drop'),
+		('2pm-4pm', '2pm-4pm'), ('First Drop', 'First Drop'), ('Installing Tomorrow', 'Installing Tomorrow'),
+	)
+	states = (
+		('', ''), ('NC', 'NC'), ('SC', 'SC'), ('VA', 'VA'), ('KY', 'KY'),
 	)
 	statuses = (
 		('Order', 'Order'), ('Confirmed', 'Confirmed'), ('Load Matched', 'Load Matched'), ('Invoice Made', 'Invoice Made'),
@@ -20,9 +23,14 @@ class Order(models.Model):
 	customer = models.ForeignKey(WholesaleCustomer, on_delete=models.CASCADE)
 	transfer_type = models.CharField(max_length=8, choices=transfer_types, default='')
 	transfer_date = models.DateField(null=True, blank=True)
-	transfer_time = models.CharField(max_length=20, choices=transfer_times, default='') 
-	#is_delivery = models.BooleanField(default=False)
-	#delivery_address = models.ForeignKey(DeliveryAddresses, on_delete=models.CASCADE)
+	transfer_time = models.CharField(max_length=20, choices=transfer_times, default='')
+	is_delivery = models.BooleanField(default=False)
+	delivery_street = models.CharField(max_length=100, null=True, blank=True)
+	delivery_city = models.CharField(max_length=64, null=True, blank=True)
+	delivery_state = models.CharField(max_length=2, null=True, blank=True, choices=states, default='NC')
+	delivery_zip_code = models.CharField(max_length=10, null=True, blank=True)
+	order_notes = models.CharField(max_length=255, null=True, blank=True)
+	print_notes = models.BooleanField(default=False)
 	#delivery_assignment = models.ForeignKey(Logistics, on_delete=models.CASCADE)
 	status = models.CharField(max_length=20, choices=statuses, default='Order')
 	created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+', default='')
