@@ -57,11 +57,11 @@ class OrderEditForm(forms.ModelForm):
 class ItemEditForm(forms.ModelForm):
 	class Meta:
 		model = Item
-		exclude = []
+		fields = ['item', 'quantity', 'order']
 		widgets = {
 			'item': forms.Select(attrs={'class': 'form-control item', 'style': 'margin-bottom: 10px;', 'onchange' : 'itemChange(this);', 'disabled': ''}),
 			'quantity': forms.NumberInput(attrs={'class': 'form-control quantity', 'style': 'margin-bottom: 10px;', 'readonly': 'true'}),
 		}
-
+		
 
 ItemEditFormSet = modelformset_factory(Item, form=ItemEditForm, extra=0, can_delete=True)

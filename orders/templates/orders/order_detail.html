@@ -136,7 +136,8 @@
 				</div>
 		    	{{ item_form.management_form }}
 		    	{% for form in item_form %}
-		    		<div class="item-form" name="removeForm">
+		    		<div class="item-form">
+					    <div style="display: none">{{ form.order }}</div>
 					    <div style="display: none">{{ form.id }}</div>
 				        <div class="col-xs-12 col-md-7">
 							<div>
@@ -150,8 +151,9 @@
 								{{ form.quantity }}
 							</div>
 				        </div>
-				        <div class="col-xs-12 col-md-2" name="removeField">
-			          		<button class="btn btn-sm btn-danger" name="removeBtn" type="button" style="margin: 4px auto;" onclick=formRemove(event);>Remove</button>
+				        <div class="col-xs-12 col-md-2">
+			          		<button class="btn btn-sm btn-danger removeBtn" type="button" style="margin: 4px auto;" onclick=formRemove(this); disabled="true">Remove</button>
+					    	<div style="display: none;">{{ form.DELETE }}</div>
 						</div>
 		    		</div>
 		    	{% endfor %}
@@ -189,7 +191,11 @@
 		$('.quantity').each(function(i) {
 			$(this).attr('readonly', false);
 		});
+		$('.removeBtn').each(function() {
+			$(this).attr('disabled', false);
+		});
 		formReplicate();
+		$(this).hide();
 	});
 
 
@@ -218,7 +224,6 @@
 		let tfv = $('#id_form-TOTAL_FORMS').val();
 		$('#id_form-TOTAL_FORMS').val(tfv-1);
 		orderForm.submit();
-		item_form.submit();
 	});
 
 
@@ -239,8 +244,10 @@
 	}
 
 
-	function formRemove(event) {
-		$(event.target).parent().parent().remove();
+	function formRemove(button) {
+  		$(event.target).next().children().prop('checked', true);
+  		$(button).parent().parent().hide();
+		/*$(event.target).parent().parent().remove();
 		tfv = $('#id_form-TOTAL_FORMS').val();
 		$('#id_form-TOTAL_FORMS').val(tfv-1);
 		let formCounter = 0;
@@ -260,7 +267,7 @@
 				}
 			}
 			formCounter++;
-		});
+		});*/
 	}
 
 
