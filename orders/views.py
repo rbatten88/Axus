@@ -32,9 +32,10 @@ def OrderCreateView(request):
 
 
 def OrderListView(request):
-    template = 'orders/order_list.html'
+    template = 'orders/order_list_tabs.html'
     orders = Order.objects.all()
     items = Item.objects.all()
+    current_week = None
 
     return render(request, template, {'orders': orders, 'items': items})
 
