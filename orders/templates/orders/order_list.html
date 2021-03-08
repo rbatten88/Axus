@@ -74,7 +74,7 @@
                             {% if forloop.last %}
                                 <div class="transform-media">{{ item.item }}</div></td>
                             {% else %}
-                                <div class="transform-media">{{ item.item }}</div><br>
+                                <div class="transform-media">{{ item.item }}</div>
                             {% endif %}
                         {% endfor %}
                         <td>
@@ -82,10 +82,10 @@
                             {% if forloop.last %}
                                 <div class="transform-media">{{ item.quantity|intcomma }}</div></td>
                             {% else %}
-                                <div class="transform-media">{{ item.quantity|intcomma }}</div><br>
+                                <div class="transform-media">{{ item.quantity|intcomma }}</div>
                             {% endif %}
                         {% endfor %}
-                        <td><div class="transform-media">{{ order.status }}</div></td><br>
+                        <td><div class="transform-media">{{ order.status }}</div></td>
                     </tr>
                 {% else %}
                     {% for item in order.items.all%}
