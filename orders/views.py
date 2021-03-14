@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
 from django.views.generic.edit import FormMixin, ProcessFormView
 from django.urls import reverse_lazy
@@ -8,6 +8,7 @@ from .forms import OrderForm, ItemFormSet, OrderEditForm, ItemEditFormSet
 from .models import Order, Item, Product
 from django.utils import timezone
 import datetime
+import os
 
 def OrderCreateView(request):
     template = 'orders/order_add.html'
@@ -37,13 +38,22 @@ def OrderListView(request):
     orders = Order.objects.all()
     items = Item.objects.all()
     today = datetime.date.today()
-    sun = today - datetime.timedelta(days = today.weekday()+1)
-    mon = today - datetime.timedelta(days = today.weekday())
-    tue = today - datetime.timedelta(days = today.weekday()-1)
-    wed = today - datetime.timedelta(days = today.weekday()-2)
-    thu = today - datetime.timedelta(days = today.weekday()-3)
-    fri = today - datetime.timedelta(days = today.weekday()-4)
-    sat = today - datetime.timedelta(days = today.weekday()-5)
+    if today.weekday() == 6:
+        sun = today - datetime.timedelta(days = today.weekday()-6)
+        mon = today - datetime.timedelta(days = today.weekday()-7)
+        tue = today - datetime.timedelta(days = today.weekday()-8)
+        wed = today - datetime.timedelta(days = today.weekday()-9)
+        thu = today - datetime.timedelta(days = today.weekday()-10)
+        fri = today - datetime.timedelta(days = today.weekday()-11)
+        sat = today - datetime.timedelta(days = today.weekday()-12)
+    else:
+        sun = today - datetime.timedelta(days = today.weekday()+1)
+        mon = today - datetime.timedelta(days = today.weekday())
+        tue = today - datetime.timedelta(days = today.weekday()-1)
+        wed = today - datetime.timedelta(days = today.weekday()-2)
+        thu = today - datetime.timedelta(days = today.weekday()-3)
+        fri = today - datetime.timedelta(days = today.weekday()-4)
+        sat = today - datetime.timedelta(days = today.weekday()-5)
     #current_week_ord = Order.objects.filter(transfer_date__gte=sun, transfer_date__lte=sat)
     #return HttpResponse(len(current_week_ord))
     sun_orders = Order.objects.filter(transfer_date=sun)
@@ -67,12 +77,16 @@ def OrderListView(request):
     sat_date_formatted = sat.strftime("%x")
     current_week_dates = [sun_date_formatted, mon_date_formatted, tue_date_formatted, wed_date_formatted, 
         thu_date_formatted, fri_date_formatted, sat_date_formatted]
-    tab_data = ['Sunday - ' + sun_date_formatted, 'Monday - ' + mon_date_formatted, 
-        'Tuesday - ' + tue_date_formatted, 'Wednesday - ' + wed_date_formatted, 'Thursday - ' + thu_date_formatted, 
-        'Friday - ' + fri_date_formatted, 'Saturday - ' + sat_date_formatted]
 
     return render(request, template, {'orders': orders, 'items': items, 'current_week_dates': current_week_dates, 
         'today': today, 'current_week_orders': current_week_orders})
+
+
+def UpdateWeekOrders(request):
+    new_date = request.GET.get('new_date', None)
+    return HttpResponse(new_date)
+    data = {'test_msg': 'This came from the view!'}
+    return JsonResponse(data)
 
 
 def OrderUpdateView(request, pk):
