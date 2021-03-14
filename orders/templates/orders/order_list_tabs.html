@@ -4,20 +4,27 @@
 <style type="">
     tr:nth-of-type(odd) { background-color: #eee; }
     tr:nth-of-type(even) { background-color: #fff; }
+    tr:hover { background-color: lightblue; }
     th { background: gray; font-weight: bold; }
     /*td, th { padding: 6px; border: 1px solid #eee; text-align: left; }*/
     /*.btn { border-radius: 20px; width: 160px; outline: none; background-color: #e8e7e7; border-width: medium; border-color: #3385ff; color: black; right: 0;*/
     .newOrderBtn { width: 160px; height: 42px; position: absolute; margin: 4px 18px; right: 0; }
+    .badge { background-color: gray; color: black; font-size: 15px; margin-left: 4px; }
     .btn:hover { color: black; font-weight: bold; }
-    .data_row:hover { background-color: lightblue; }
+    .nav-link:hover { background-color: #3385ff; border: none; color: black; }
+    .nav-item { width: 14%; }
     .nav-tabs { margin-top: 114px; }
-    .nav-link:focus { background-color: #3385ff; border: none; color: black; font-weight: bold; }
+    .nav-link { background-color: gray; color: black; width: 90%; font-size: 1rem; padding: none; }
+    .nav-link:active { background-color: green; }
     .static_label { position: fixed; display: inline-flex; min-width: calc(100vw - 160px); background-color: black; padding-bottom: 8px; margin-top: 51px; top: 0; z-index: 2; }
-    .table_set { margin-top: 104px; padding-bottom: 1px; }
-    #datepicker { margin: 6px 20px 0 450px; width: 300px; }
+    .tab-pane { margin-top: 0; }
+    .table_set { margin-top: 0; padding-bottom: 1px; }
+    #datepicker { margin: 6px 20px 0 250px; position: absolute; width: 300px; }
     #order_search_input { width: 40%; border-radius: 4px; border: 1px solid black; padding-left: 10px; vertical-align: top; color: black; display: block; position: absolute; right: 0; margin: 6px 200px 0 0; }
     #orders_label { margin: 0px 0px 10px 20px; color: #3385ff; font-size: 30px; }
     #mobile_order_search_input { display: none; }
+
+
 
     @media only screen and (max-width: 870px) {
         table, thead, tbody, th, td, tr { display: block; }
@@ -56,32 +63,410 @@
     <input class="form-control" type="text" name="order_search" placeholder="Search by Order Number or Company Name" id="order_search_input">
     <a href="{% url 'order_add' %}" role="button" class="btn btn-primary newOrderBtn">New Order</a>
 </div>
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link" href="#">Sunday</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Monday</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Tuesday</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Wednesday</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Thursday</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Friday</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Saturday</a>
-    </li>
+<ul class="nav nav-tabs" style="width: 100%;">
+    {% if today == current_week_dates.0 %}
+        <li class="nav-item"><a class="nav-link active" href="#sun" data-toggle="tab" onclick="activateTab(this)">Sunday - {{ current_week_dates.0 }}<span class="badge">{{ current_week_orders.0.count }}</span></a></li>
+    {% else %}
+        <li class="nav-item"><a class="nav-link" href="#sun" data-toggle="tab" onclick="activateTab(this)">Sunday - {{ current_week_dates.0 }}<span class="badge">{{ current_week_orders.0.count }}</span></a></li>
+    {% endif %}
+    {% if today == current_week_dates.1 %}
+        <li class="nav-item"><a class="nav-link active" href="#mon" data-toggle="tab" onclick="activateTab(this)">Monday - {{ current_week_dates.1 }}<span class="badge">{{ current_week_orders.1.count }}</span></a></li>
+    {% else %}
+        <li class="nav-item"><a class="nav-link" href="#mon" data-toggle="tab" onclick="activateTab(this)">Monday - {{ current_week_dates.1 }}<span class="badge">{{ current_week_orders.1.count }}</span></a></li>
+    {% endif %}
+    {% if today == current_week_dates.2 %}
+        <li class="nav-item"><a class="nav-link active" href="#tue" data-toggle="tab" onclick="activateTab(this)">Tuesday - {{ current_week_dates.2 }}<span class="badge">{{ current_week_orders.2.count }}</span></a></li>
+    {% else %}
+        <li class="nav-item"><a class="nav-link" href="#tue" data-toggle="tab" onclick="activateTab(this)">Tuesday - {{ current_week_dates.2 }}<span class="badge">{{ current_week_orders.2.count }}</span></a></li>
+    {% endif %}
+    {% if today == current_week_dates.3 %}
+        <li class="nav-item"><a class="nav-link active" href="#wed" data-toggle="tab" onclick="activateTab(this)">Wednesday - {{ current_week_dates.3 }}<span class="badge">{{ current_week_orders.3.count }}</span></a></li>
+    {% else %}
+        <li class="nav-item"><a class="nav-link" href="#wed" data-toggle="tab" onclick="activateTab(this)">Wednesday - {{ current_week_dates.3 }}<span class="badge">{{ current_week_orders.3.count }}</span></a></li>
+    {% endif %}
+    {% if today == current_week_dates.4 %}
+        <li class="nav-item"><a class="nav-link active" href="#thu" data-toggle="tab" onclick="activateTab(this)">Thursday - {{ current_week_dates.4 }}<span class="badge">{{ current_week_orders.4.count }}</span></a></li>
+    {% else %}
+        <li class="nav-item"><a class="nav-link" href="#thu" data-toggle="tab" onclick="activateTab(this)">Thursday - {{ current_week_dates.4 }}<span class="badge">{{ current_week_orders.4.count }}</span></a></li>
+    {% endif %}
+    {% if today == current_week_dates.5 %}
+        <li class="nav-item"><a class="nav-link active" href="#fri" data-toggle="tab" onclick="activateTab(this)">Friday - {{ current_week_dates.5 }}<span class="badge">{{ current_week_orders.5.count }}</span></a></li>
+    {% else %}
+        <li class="nav-item"><a class="nav-link" href="#fri" data-toggle="tab" onclick="activateTab(this)">Friday - {{ current_week_dates.5 }}<span class="badge">{{ current_week_orders.5.count }}</span></a></li>
+    {% endif %}
+    {% if today == current_week_dates.6 %}
+        <li class="nav-item"><a class="nav-link active" href="#sat" data-toggle="tab" onclick="activateTab(this)">Saturday - {{ current_week_dates.6 }}<span class="badge">{{ current_week_orders.6.count }}</span></a></li>
+    {% else %}
+        <li class="nav-item"><a class="nav-link" href="#sat" data-toggle="tab" onclick="activateTab(this)">Saturday - {{ current_week_dates.6 }}<span class="badge">{{ current_week_orders.6.count }}</span></a></li>
+    {% endif %}
 </ul>
+
+<div class="tab-content">
+    <div class="tab-pane" id="sun">
+        <div class="table_set">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Name</th>
+                        <th style="width: 10%;">Type</th>
+                        <th style="width: 20%;">Item</th>
+                        <th style="width: 20%;">Quantity</th>
+                        <th style="width: 10%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in current_week_orders.0 %}
+                        {% if order.items.count > 1 %}
+                            <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                <td><div class="transform-media">{{ order.customer }}</div></td>
+                                <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.item }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.item }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td><div class="transform-media">{{ order.status }}</div></td>
+                            </tr>
+                        {% else %}
+                            {% for item in order.items.all%}
+                                <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                    <td><div class="transform-media">{{ order.customer }}</div></td>
+                                    <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                    <td><div class="transform-media">{{ item.item }}</div></td>
+                                    <td><div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    <td><div class="transform-media">{{ order.status }}</div></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+   </div>
+   <div class="tab-pane" id="mon">
+        <div class="table_set">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Name</th>
+                        <th style="width: 10%;">Type</th>
+                        <th style="width: 20%;">Item</th>
+                        <th style="width: 20%;">Quantity</th>
+                        <th style="width: 10%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in current_week_orders.1 %}
+                        {% if order.items.count > 1 %}
+                            <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                <td><div class="transform-media">{{ order.customer }}</div></td>
+                                <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.item }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.item }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td><div class="transform-media">{{ order.status }}</div></td>
+                            </tr>
+                        {% else %}
+                            {% for item in order.items.all%}
+                                <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                    <td><div class="transform-media">{{ order.customer }}</div></td>
+                                    <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                    <td><div class="transform-media">{{ item.item }}</div></td>
+                                    <td><div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    <td><div class="transform-media">{{ order.status }}</div></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+   </div>
+   <div class="tab-pane" id="tue">
+        <div class="table_set">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Name</th>
+                        <th style="width: 10%;">Type</th>
+                        <th style="width: 20%;">Item</th>
+                        <th style="width: 20%;">Quantity</th>
+                        <th style="width: 10%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in current_week_orders.2 %}
+                        {% if order.items.count > 1 %}
+                            <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                <td><div class="transform-media">{{ order.customer }}</div></td>
+                                <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.item }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.item }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td><div class="transform-media">{{ order.status }}</div></td>
+                            </tr>
+                        {% else %}
+                            {% for item in order.items.all%}
+                                <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                    <td><div class="transform-media">{{ order.customer }}</div></td>
+                                    <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                    <td><div class="transform-media">{{ item.item }}</div></td>
+                                    <td><div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    <td><div class="transform-media">{{ order.status }}</div></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+   </div>
+   <div class="tab-pane" id="wed">
+        <div class="table_set">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Name</th>
+                        <th style="width: 10%;">Type</th>
+                        <th style="width: 20%;">Item</th>
+                        <th style="width: 20%;">Quantity</th>
+                        <th style="width: 10%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in current_week_orders.3 %}
+                        {% if order.items.count > 1 %}
+                            <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                <td><div class="transform-media">{{ order.customer }}</div></td>
+                                <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.item }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.item }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td><div class="transform-media">{{ order.status }}</div></td>
+                            </tr>
+                        {% else %}
+                            {% for item in order.items.all%}
+                                <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                    <td><div class="transform-media">{{ order.customer }}</div></td>
+                                    <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                    <td><div class="transform-media">{{ item.item }}</div></td>
+                                    <td><div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    <td><div class="transform-media">{{ order.status }}</div></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+   </div>
+   <div class="tab-pane" id="thu">
+        <div class="table_set">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Name</th>
+                        <th style="width: 10%;">Type</th>
+                        <th style="width: 20%;">Item</th>
+                        <th style="width: 20%;">Quantity</th>
+                        <th style="width: 10%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in current_week_orders.4 %}
+                        {% if order.items.count > 1 %}
+                            <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                <td><div class="transform-media">{{ order.customer }}</div></td>
+                                <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.item }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.item }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td><div class="transform-media">{{ order.status }}</div></td>
+                            </tr>
+                        {% else %}
+                            {% for item in order.items.all%}
+                                <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                    <td><div class="transform-media">{{ order.customer }}</div></td>
+                                    <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                    <td><div class="transform-media">{{ item.item }}</div></td>
+                                    <td><div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    <td><div class="transform-media">{{ order.status }}</div></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+   </div>
+   <div class="tab-pane" id="fri">
+        <div class="table_set">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Name</th>
+                        <th style="width: 10%;">Type</th>
+                        <th style="width: 20%;">Item</th>
+                        <th style="width: 20%;">Quantity</th>
+                        <th style="width: 10%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in current_week_orders.5 %}
+                        {% if order.items.count > 1 %}
+                            <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                <td><div class="transform-media">{{ order.customer }}</div></td>
+                                <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.item }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.item }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td><div class="transform-media">{{ order.status }}</div></td>
+                            </tr>
+                        {% else %}
+                            {% for item in order.items.all%}
+                                <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                    <td><div class="transform-media">{{ order.customer }}</div></td>
+                                    <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                    <td><div class="transform-media">{{ item.item }}</div></td>
+                                    <td><div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    <td><div class="transform-media">{{ order.status }}</div></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+   </div>
+   <div class="tab-pane" id="sat">
+        <div class="table_set">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Name</th>
+                        <th style="width: 10%;">Type</th>
+                        <th style="width: 20%;">Item</th>
+                        <th style="width: 20%;">Quantity</th>
+                        <th style="width: 10%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in current_week_orders.6 %}
+                        {% if order.items.count > 1 %}
+                            <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                <td><div class="transform-media">{{ order.customer }}</div></td>
+                                <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.item }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.item }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>
+                                {% for item in order.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.quantity|intcomma }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td><div class="transform-media">{{ order.status }}</div></td>
+                            </tr>
+                        {% else %}
+                            {% for item in order.items.all%}
+                                <tr class="data_row" data-href="{% url 'order_detail' order.id %}">
+                                    <td><div class="transform-media">{{ order.customer }}</div></td>
+                                    <td><div class="transform-media">{{ order.transfer_type }}</div></td>
+                                    <td><div class="transform-media">{{ item.item }}</div></td>
+                                    <td><div class="transform-media">{{ item.quantity|intcomma }}</div></td>
+                                    <td><div class="transform-media">{{ order.status }}</div></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+   </div>
 </div>
-
-
 
 <script type="text/javascript">
  
@@ -94,8 +479,12 @@
           autoclose: true,
         };
         $('#datepicker').datepicker(options);
+        let tday = '{% now "D" %}';
+        $('.nav-link[href="#"' + tday.toLowerCase() + ']').tab('show');
     });
 
+    function activateTab(item) {
+    };
 
 
 </script>

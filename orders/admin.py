@@ -3,7 +3,7 @@ from .models import Order, Item
 
 
 class OrderAdmin(admin.ModelAdmin):
-	list_display = ['id', 'customer', 'transfer_type']
+	list_display = ['id', 'customer', 'transfer_date', 'transfer_type']
 	search_fields = ['id', 'customer']
 
 

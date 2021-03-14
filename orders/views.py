@@ -6,7 +6,8 @@ from django.urls import reverse_lazy
 from django.forms import modelformset_factory
 from .forms import OrderForm, ItemFormSet, OrderEditForm, ItemEditFormSet
 from .models import Order, Item, Product
-
+from django.utils import timezone
+import datetime
 
 def OrderCreateView(request):
     template = 'orders/order_add.html'
@@ -35,9 +36,43 @@ def OrderListView(request):
     template = 'orders/order_list_tabs.html'
     orders = Order.objects.all()
     items = Item.objects.all()
-    current_week = None
+    today = datetime.date.today()
+    sun = today - datetime.timedelta(days = today.weekday()+1)
+    mon = today - datetime.timedelta(days = today.weekday())
+    tue = today - datetime.timedelta(days = today.weekday()-1)
+    wed = today - datetime.timedelta(days = today.weekday()-2)
+    thu = today - datetime.timedelta(days = today.weekday()-3)
+    fri = today - datetime.timedelta(days = today.weekday()-4)
+    sat = today - datetime.timedelta(days = today.weekday()-5)
+    #current_week_ord = Order.objects.filter(transfer_date__gte=sun, transfer_date__lte=sat)
+    #return HttpResponse(len(current_week_ord))
+    sun_orders = Order.objects.filter(transfer_date=sun)
+    mon_orders = Order.objects.filter(transfer_date=mon)
+    tue_orders = Order.objects.filter(transfer_date=tue)
+    wed_orders = Order.objects.filter(transfer_date=wed)
+    thu_orders = Order.objects.filter(transfer_date=thu)
+    fri_orders = Order.objects.filter(transfer_date=fri)
+    sat_orders = Order.objects.filter(transfer_date=sat)
+    current_week_orders = [sun_orders, mon_orders, tue_orders, wed_orders, thu_orders, fri_orders, sat_orders]
+    #return HttpResponse(len(current_week_orders[4]))
+    today = today.strftime("%x")
+    #today_day = today.strftime("%A")
+    #today = today_day + ' - ' + today_formatted
+    sun_date_formatted = sun.strftime("%x")
+    mon_date_formatted = mon.strftime("%x")
+    tue_date_formatted = tue.strftime("%x")
+    wed_date_formatted = wed.strftime("%x")
+    thu_date_formatted = thu.strftime("%x")
+    fri_date_formatted = fri.strftime("%x")
+    sat_date_formatted = sat.strftime("%x")
+    current_week_dates = [sun_date_formatted, mon_date_formatted, tue_date_formatted, wed_date_formatted, 
+        thu_date_formatted, fri_date_formatted, sat_date_formatted]
+    tab_data = ['Sunday - ' + sun_date_formatted, 'Monday - ' + mon_date_formatted, 
+        'Tuesday - ' + tue_date_formatted, 'Wednesday - ' + wed_date_formatted, 'Thursday - ' + thu_date_formatted, 
+        'Friday - ' + fri_date_formatted, 'Saturday - ' + sat_date_formatted]
 
-    return render(request, template, {'orders': orders, 'items': items})
+    return render(request, template, {'orders': orders, 'items': items, 'current_week_dates': current_week_dates, 
+        'today': today, 'current_week_orders': current_week_orders})
 
 
 def OrderUpdateView(request, pk):
