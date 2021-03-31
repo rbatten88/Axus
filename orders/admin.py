@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order, Item
+from .models import Order, OrderItem, Load, LoadItem
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -7,10 +7,22 @@ class OrderAdmin(admin.ModelAdmin):
 	search_fields = ['id', 'customer']
 
 
-class ItemAdmin(admin.ModelAdmin):
+class OrderItemAdmin(admin.ModelAdmin):
 	list_display = ['item', 'order']
+	search_fields = ['item']
+
+
+class LoadAdmin(admin.ModelAdmin):
+	list_display = ['temp_load_number', 'farm', 'transfer_date']
+	search_fields = ['temp_load_number', 'farm']
+
+
+class LoadItemAdmin(admin.ModelAdmin):
+	list_display = ['item', 'quantity', 'load']
 	search_fields = ['item']
 
 # Register your models here.
 admin.site.register(Order, OrderAdmin)
-admin.site.register(Item, ItemAdmin)
+admin.site.register(OrderItem, OrderItemAdmin)
+admin.site.register(Load, LoadAdmin)
+admin.site.register(LoadItem, LoadItemAdmin)

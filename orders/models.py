@@ -1,4 +1,5 @@
 from django.db import models
+from vendors.models import Vendor
 from products.models import Product
 from customers.models import WholesaleCustomer
 from django.conf import settings
@@ -38,7 +39,6 @@ class Order(models.Model):
 	updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	updated_on = models.DateTimeField(auto_now=True)
 
-
 	def __str__(self):
 		return f"{self.id} - {self.customer}"
 
@@ -48,11 +48,45 @@ class Order(models.Model):
 	class Meta(object):
 		ordering = ['id']
 
-class Item(models.Model):
+
+class OrderItem(models.Model):
 	item = models.ForeignKey(Product, on_delete=models.CASCADE)
 	quantity = models.IntegerField()
 	order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
-	'''
+
+
+class Load(models.Model):
+	transfer_types = (
+		('', ''), ('Delivery', 'Delivery'), ('Pickup', 'Pickup'), ('TBD', 'TBD'),
+	)
+	transfer_times = (
+		('', ''), ('Overnight', 'Overnight'), ('Morning', 'Morning'), ('Noon', 'Noon'), 
+		('8am-10am', '8am-10am'), ('10am-12pm', '10am-12pm'), ('12pm-2pm', '12pm-2pm'), 
+		('2pm-4pm', '2pm-4pm'),
+	)
+	temp_load_number = models.CharField(max_length=12)
+	inv_number = models.CharField(max_length=20, null=True, blank=True)
+	farm = models.ForeignKey(Vendor, on_delete=models.CASCADE, limit_choices_to={'category': 'Farm'})
+	cut_date = models.DateField()
+	transfer_date = models.DateField()
+	transfer_type = models.CharField(max_length=8, choices=transfer_types, default='')
+	transfer_time = models.CharField(max_length=9, choices=transfer_times, default='')
+	created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='+', default='')
+	created_on = models.DateTimeField(auto_now_add=True)
+	updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	updated_on = models.DateTimeField(auto_now=True)
+
 	def __str__(self):
-		return f"{self.order.id} - {self.item}"'''
- 
+		return f"{self.temp_load_number} - {self.farm} {self.transfer_date}"
+
+	def get_absolute_url(self):
+		return reverse('order_list')
+
+	class Meta(object):
+		ordering = ['temp_load_number']
+
+
+class LoadItem(models.Model):
+	item = models.ForeignKey(Product, on_delete=models.CASCADE, limit_choices_to={'category': 'Sod'})
+	quantity = models.IntegerField()
+	load = models.ForeignKey(Load, on_delete=models.CASCADE, related_name='items')
