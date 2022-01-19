@@ -509,14 +509,24 @@
 
     $('#datepicker1').on('change', function() {
         if ($(this).val() != '') {
-            var new_date = $(this).val();
-            $.ajax({
-                url: '{% url "update_week" %}',
-                data: new_date,
-                datatype: 'json',
-                success: function(data) {
-                }
-            });
+            alert($(this).val());
+            /*$('#new_date_form').submit(function(e) {
+                e.preventDefault();
+                var serializedData = $('#new_date_form').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'update_week' %}",
+                    data: serializedData,
+                    success: function(response) {
+                        $('#new_date_form').trigger('reset');
+                        var msg = JSON.parse(response["msg"]);
+                        alert(msg);
+                    },
+                    error: function(response) {
+                        alert(response["responseJSON"]["error"]);
+                    }
+                })
+            })*/
         }
     });
 

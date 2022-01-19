@@ -83,10 +83,11 @@ def OrderListView(request):
 
 
 def UpdateWeekOrders(request):
-    new_date = request.GET.get('new_date', None)
-    return HttpResponse(new_date)
-    data = {'test_msg': 'This came from the view!'}
-    return JsonResponse(data)
+    print("HELLO")
+    if request.is_ajax and request.method == "POST":
+        form = new_date_form(request.POST)
+        new_date = form.new_date
+
 
 
 def OrderUpdateView(request, pk):
