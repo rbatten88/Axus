@@ -64,7 +64,7 @@ class Load(models.Model):
 		('8am-10am', '8am-10am'), ('10am-12pm', '10am-12pm'), ('12pm-2pm', '12pm-2pm'), 
 		('2pm-4pm', '2pm-4pm'),
 	)
-	temp_load_number = models.CharField(max_length=12)
+	temp_load_number = models.CharField(max_length=30)
 	inv_number = models.CharField(max_length=20, null=True, blank=True)
 	farm = models.ForeignKey(Vendor, on_delete=models.CASCADE, limit_choices_to={'category': 'Farm'})
 	cut_date = models.DateField()
@@ -89,4 +89,5 @@ class Load(models.Model):
 class LoadItem(models.Model):
 	item = models.ForeignKey(Product, on_delete=models.CASCADE, limit_choices_to={'category': 'Sod'})
 	quantity = models.IntegerField()
+	available = models.IntegerField()
 	load = models.ForeignKey(Load, on_delete=models.CASCADE, related_name='items')

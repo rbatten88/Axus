@@ -174,10 +174,10 @@ def OrderUpdateView(request, pk):
     products = Product.objects.all()
     created_by = order.created_by
     order_form = OrderEditForm(instance=order)
-    item_form = ItemEditFormSet(queryset=OrderItem.objects.filter(order_id=pk))
+    item_form = OrderItemEditFormSet(queryset=OrderItem.objects.filter(order_id=pk))
     if request.method == 'POST' :
         order_form = OrderEditForm(request.POST, instance=order)
-        item_form = ItemEditFormSet(request.POST)
+        item_form = OrderItemEditFormSet(request.POST)
         if order_form.is_valid() and item_form.is_valid():
             ordr = order_form.save(commit=False)
             ordr.created_by = created_by
@@ -201,12 +201,13 @@ def LoadCreateView(request):
         if load_order_form.is_valid() and load_item_form.is_valid():
             ordr = load_order_form.save(commit=False)
             trans_date = ordr.transfer_date.strftime("%m%d%y")
-            ordr.temp_load_number = 'TL-' + str(trans_date) + '-' + str(Load.objects.filter(transfer_date=ordr.transfer_date).count() + 1)
+            ordr.temp_load_number = str(ordr.farm) + '-TL-' + str(trans_date) + '-' + str(Load.objects.filter(transfer_date=ordr.transfer_date).count() + 1)
             ordr.created_by = request.user
             ordr.updated_by = request.user
             ordr = load_order_form.save()
             instances = load_item_form.save(commit=False)
             for instance in instances:
+                instance.available = instance.quantity
                 instance.load = ordr
                 instance.save()
             return redirect('order_list')
@@ -241,7 +242,10 @@ def LoadUpdateView(request, pk):
             lode.created_by = created_by
             lode.updated_by = request.user
             load_order_form.save()
-            item_form.save()
+            instances = item_form.save(commit=False)
+            for instance in instances:
+                instance.available = instance.quantity
+                instance.save()
             return redirect('load_list')
 
     return render(request, template, {'load_order_form': load_order_form, 'item_form': item_form, 'load': load, 'products': products})

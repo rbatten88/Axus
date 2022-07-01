@@ -1,4 +1,4 @@
-#!/home/rbatten/dev/nexus/bin/python
+#!/home/rbatten/dev/nexus/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -94,7 +94,7 @@
                     </thead>
                     <tbody>
                         {% for load in current_week_loads.0 %}
-                            <tr>
+                            <tr class="data_row" data-href="{% url 'load_detail' load.id %}">
                                 <td>{{ load.farm}}</td>
                                 <td>
                                 {% for item in load.items.all %}
@@ -181,12 +181,13 @@
                             <th class="order_table_th">Farm</th>
                             <th class="order_table_th">Item</th>
                             <th class="order_table_th">Quantity</th>
+                            <th class="order_table_th">Available</th>
                             <th class="order_table_th">Load Number</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for load in current_week_loads.1 %}
-                            <tr>
+                            <tr class="data_row" data-href="{% url 'load_detail' load.id %}">
                                 <td>{{ load.farm}}</td>
                                 <td>
                                 {% for item in load.items.all %}
@@ -202,6 +203,14 @@
                                         <div class="transform-media">{{ item.quantity|intcomma }}</div></td>
                                     {% else %}
                                         <div class="transform-media">{{ item.quantity|intcomma }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                                <td>
+                                {% for item in load.items.all %}
+                                    {% if forloop.last %}
+                                        <div class="transform-media">{{ item.available|intcomma }}</div></td>
+                                    {% else %}
+                                        <div class="transform-media">{{ item.available|intcomma }}</div>
                                     {% endif %}
                                 {% endfor %}
                                 <td>{{ load.temp_load_number }}</td>
@@ -278,7 +287,7 @@
                     </thead>
                     <tbody>
                         {% for load in current_week_loads.2 %}
-                            <tr>
+                            <tr class="data_row" data-href="{% url 'load_detail' load.id %}">
                                 <td>{{ load.farm}}</td>
                                 <td>
                                 {% for item in load.items.all %}
@@ -370,7 +379,7 @@
                     </thead>
                     <tbody>
                         {% for load in current_week_loads.3 %}
-                            <tr>
+                            <tr class="data_row" data-href="{% url 'load_detail' load.id %}">
                                 <td>{{ load.farm}}</td>
                                 <td>
                                 {% for item in load.items.all %}
@@ -462,7 +471,7 @@
                     </thead>
                     <tbody>
                         {% for load in current_week_loads.4 %}
-                            <tr>
+                            <tr class="data_row" data-href="{% url 'load_detail' load.id %}">
                                 <td>{{ load.farm}}</td>
                                 <td>
                                 {% for item in load.items.all %}
@@ -554,7 +563,7 @@
                     </thead>
                     <tbody>
                         {% for load in current_week_loads.5 %}
-                            <tr>
+                            <tr class="data_row" data-href="{% url 'load_detail' load.id %}">
                                 <td>{{ load.farm}}</td>
                                 <td>
                                 {% for item in load.items.all %}
@@ -646,7 +655,7 @@
                     </thead>
                     <tbody>
                         {% for load in current_week_loads.6 %}
-                            <tr>
+                            <tr class="data_row" data-href="{% url 'load_detail' load.id %}">
                                 <td>{{ load.farm}}</td>
                                 <td>
                                 {% for item in load.items.all %}

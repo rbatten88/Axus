@@ -84,7 +84,7 @@ class LoadForm(forms.ModelForm):
 class LoadItemForm(forms.ModelForm):
 	class Meta:
 		model = LoadItem
-		exclude = ['load']
+		exclude = ['load', 'available']
 		widgets = {
 			'item': forms.Select(attrs={'class': 'form-control item', 'style': 'margin-bottom: 10px;', 'onchange' : 'itemChange(this);'}),
 			'quantity': forms.NumberInput(attrs={'class': 'form-control', 'style': 'margin-bottom: 10px;'}),
@@ -113,6 +113,7 @@ class LoadItemEditForm(forms.ModelForm):
 	class Meta:
 		model = LoadItem
 		fields = ['item', 'quantity', 'load']
+		exclude = ['available']
 		widgets = {
 			'item': forms.Select(attrs={'class': 'form-control item', 'style': 'margin-bottom: 10px;', 'onchange' : 'itemChange(this);', 'disabled': ''}),
 			'quantity': forms.NumberInput(attrs={'class': 'form-control quantity', 'style': 'margin-bottom: 10px;', 'readonly': 'true'}),
