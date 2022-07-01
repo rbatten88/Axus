@@ -755,6 +755,7 @@
 
     $('#datepicker1').on('change', function() {
         if ($(this).val() != '') {
+<<<<<<< HEAD
             var new_date = $(this).val();
             $.ajax({
                 url: '{% url "update_week" %}',
@@ -764,6 +765,26 @@
                     console.log(data);
                 }
             });
+=======
+            alert($(this).val());
+            /*$('#new_date_form').submit(function(e) {
+                e.preventDefault();
+                var serializedData = $('#new_date_form').serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'update_week' %}",
+                    data: serializedData,
+                    success: function(response) {
+                        $('#new_date_form').trigger('reset');
+                        var msg = JSON.parse(response["msg"]);
+                        alert(msg);
+                    },
+                    error: function(response) {
+                        alert(response["responseJSON"]["error"]);
+                    }
+                })
+            })*/
+>>>>>>> 2888f3fae9bc923c364c2cbcfbb6afd6cfc74863
         }
     });
 
