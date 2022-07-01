@@ -102,7 +102,6 @@ def OrderListView(request):
 
 
 def UpdateWeekOrders(request):
-<<<<<<< HEAD
     nd = request.GET.get('new_date', None)
     new_date = datetime.datetime.strptime(nd, '%Y-%m-%d')
     if new_date.weekday() == 6:
@@ -167,13 +166,10 @@ def UpdateWeekOrders(request):
         'current_week_pickups': current_week_pickups,'current_week_del': current_week_del, 
         'current_week_loads': current_week_loads}
     return JsonResponse(data)
-=======
     print("HELLO")
     if request.is_ajax and request.method == "POST":
         form = new_date_form(request.POST)
         new_date = form.new_date
-
->>>>>>> 2888f3fae9bc923c364c2cbcfbb6afd6cfc74863
 
 
 def OrderUpdateView(request, pk):
